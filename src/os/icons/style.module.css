@@ -1,0 +1,46 @@
+/* macOS 앱 아이콘 비율. 모서리 22.5%, 위아래로 빛이 떨어지는 안쪽 테두리 */
+.tile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  width: 1em;
+  height: 1em;
+  border-radius: 22.5%;
+  box-shadow:
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -0.5px 0 rgba(0, 0, 0, 0.25),
+    0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* 유리 광택. 왼쪽 위에서 빛이 떨어지고 가장자리가 얇게 빛난다. */
+.tile::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.34) 0%,
+    rgba(255, 255, 255, 0.08) 36%,
+    rgba(255, 255, 255, 0) 52%
+  );
+  box-shadow:
+    inset 0 0 0 0.04em rgba(255, 255, 255, 0.22),
+    inset 0 -0.03em 0.06em rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+}
+
+/* 타일을 꽉 채우는 그림. 모서리는 타일의 둥근 테두리가 자른다. */
+.full {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mark {
+  width: 66%;
+  height: 66%;
+  color: #fff;
+}

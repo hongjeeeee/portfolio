@@ -1,0 +1,127 @@
+.search {
+  position: absolute;
+  inset: 0;
+  z-index: 70;
+  padding-top: var(--status-h);
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(30px) saturate(1.4);
+  -webkit-backdrop-filter: blur(30px) saturate(1.4);
+  animation: fade 200ms ease-out;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+}
+
+.field {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: var(--glass-fill-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-edge);
+  color: var(--text);
+}
+
+.fieldIcon {
+  flex: none;
+  font-size: 17px;
+  color: var(--text-2);
+}
+
+.field input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 17px;
+}
+
+.cancel {
+  color: #fff;
+  font-size: 17px;
+}
+
+.results {
+  max-height: 62%;
+  margin: 8px 16px;
+  padding: 4px 0;
+  overflow: auto;
+  border-radius: 22px;
+  background: var(--glass-fill-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-edge), var(--glass-drop);
+  color: var(--text);
+}
+
+.group {
+  padding: 10px 16px 2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 16px;
+  color: inherit;
+  text-align: left;
+}
+
+.result:active {
+  background: var(--hover);
+}
+
+.resultIcon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 38px;
+  font-size: 38px;
+  line-height: 0;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.text strong {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.text small {
+  overflow: hidden;
+  color: var(--text-2);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.none {
+  padding: 16px;
+  color: var(--text-2);
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}

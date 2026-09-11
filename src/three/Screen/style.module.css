@@ -1,0 +1,32 @@
+/*
+ * drei 가 감싸는 div 는 overflow: hidden 이라, 안쪽 입력칸에 초점이 가면
+ * 브라우저가 이 div 를 스크롤해서 화면 전체가 밀린다. clip 은 스크롤 자체가 안 된다.
+ */
+.wrapper {
+  overflow: clip !important;
+}
+
+.screen {
+  position: relative;
+  overflow: clip;
+  /* 실제 맥북 화면도 위쪽 모서리만 둥글다 */
+  border-radius: 10px 10px 4px 4px;
+  background: #000;
+  font-size: 13px;
+  user-select: none;
+}
+
+/* 화면 유리에 비스듬히 비치는 빛. 메뉴 막대(1000)나 Spotlight(1101)보다 위, 누르는 건 밑이 받는다. */
+.sheen {
+  position: absolute;
+  inset: 0;
+  z-index: 3000;
+  border-radius: inherit;
+  background: linear-gradient(
+    118deg,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(255, 255, 255, 0.02) 24%,
+    rgba(255, 255, 255, 0) 40%
+  );
+  pointer-events: none;
+}

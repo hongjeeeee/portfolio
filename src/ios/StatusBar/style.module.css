@@ -1,0 +1,59 @@
+.bar {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--status-h);
+  padding: var(--safe-top) 26px 0 32px;
+  font-weight: 600;
+  pointer-events: none;
+  transition: color 300ms;
+}
+
+.light {
+  color: #fff;
+}
+
+.dark {
+  color: #000;
+}
+
+.time {
+  min-width: 56px;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.island {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  width: 124px;
+  height: 35px;
+  transform: translateX(-50%);
+  border-radius: 20px;
+  background: #000;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.signal {
+  width: 18px;
+  height: 12px;
+}
+
+.wifi {
+  font-size: 17px;
+}
+
+.battery {
+  width: 26px;
+  height: 13px;
+}

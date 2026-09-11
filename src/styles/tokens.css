@@ -1,0 +1,15 @@
+/**
+ * 무대(노트북 바깥)는 어두운 한 벌. 화면 속 macOS 의 색은 os/Desktop 에서 따로 정한다.
+ * 웹 글꼴은 받지 않는다 — 맥에서는 SF + Apple SD 산돌고딕, 윈도우에서는 맑은 고딕으로 떨어진다.
+ */
+:root {
+  color-scheme: dark;
+
+  --stage-bg: #0b0b0e;
+  --accent: #0a84ff;
+
+  --os-font:
+    -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard',
+    'Malgun Gothic', system-ui, sans-serif;
+  --os-mono: ui-monospace, 'SF Mono', Menlo, Consolas, 'D2Coding', monospace;
+}

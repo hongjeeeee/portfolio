@@ -1,0 +1,364 @@
+.bar {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--menubar-h);
+  padding: 0 8px;
+  /* macOS 26 처럼 막대 자체는 투명하다. 글자가 묻히지 않게 위에서 옅은 그늘만 깐다. */
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0));
+  color: #fff;
+  font-size: 13px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.compact {
+  height: calc(var(--menubar-h) + env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top);
+}
+
+.side {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  color: inherit;
+  cursor: default;
+}
+
+.item:hover,
+.active {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow:
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.45),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.12);
+}
+
+.logo {
+  padding: 0 10px;
+}
+
+.logoGlyph {
+  width: 14px;
+  height: 14px;
+}
+
+.app {
+  font-weight: 700;
+}
+
+.icon {
+  font-size: 17px;
+}
+
+.clock {
+  gap: 8px;
+}
+
+.battery {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.battery svg {
+  width: 24px;
+  height: 12px;
+}
+
+/* 노치. 가운데 두고 양옆 메뉴가 비켜 가게 한다. */
+.notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 11.5%;
+  height: 100%;
+  transform: translateX(-50%);
+  border-radius: 0 0 10px 10px;
+  background: #000;
+}
+
+.camera {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2b3550, #07080c 70%);
+}
+
+/* ---------- 펼침 메뉴 ---------- */
+
+.menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  z-index: 2;
+  padding: 5px;
+  border-radius: 14px;
+  background: var(--glass-fill-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-edge), var(--glass-drop);
+  color: var(--text);
+  text-shadow: none;
+}
+
+.logoMenu {
+  left: 6px;
+  width: 230px;
+}
+
+.group {
+  list-style: none;
+}
+
+.group + .group {
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--line);
+}
+
+.menuItem {
+  display: block;
+  width: 100%;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 24px;
+  text-align: left;
+  color: inherit;
+}
+
+.menuItem:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.wifiMenu {
+  right: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 290px;
+  height: 44px;
+  padding: 0 14px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 22px;
+}
+
+.switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch span {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: rgba(142, 142, 147, 0.5);
+  transition: background 200ms;
+  cursor: pointer;
+}
+
+.switch span::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 200ms;
+}
+
+.switch input:checked + span {
+  background: var(--accent);
+}
+
+.switch input:checked + span::before {
+  transform: translateX(16px);
+}
+
+/* ---------- 제어 센터 ---------- */
+
+.cc {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 6px;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(64px, auto);
+  gap: 10px;
+  width: 320px;
+  max-width: calc(100vw - 12px);
+  padding: 10px;
+  border-radius: 28px;
+  background: var(--glass-fill);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-edge), var(--glass-drop);
+  color: var(--text);
+  text-shadow: none;
+}
+
+.tile {
+  border-radius: 20px;
+  background: var(--glass-fill-strong);
+  box-shadow: var(--glass-edge);
+  color: inherit;
+}
+
+.connect {
+  grid-column: span 2;
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 8px;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.25;
+}
+
+.toggle strong,
+.wide strong,
+.row strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.toggle small {
+  font-size: 11px;
+  color: var(--text-2);
+}
+
+.round {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(142, 142, 147, 0.3);
+  color: var(--text);
+  font-size: 16px;
+}
+
+.on {
+  background: var(--accent);
+  color: #fff;
+}
+
+.wide {
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+}
+
+.small {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px;
+  text-align: center;
+}
+
+.small small {
+  font-size: 10.5px;
+  line-height: 1.2;
+}
+
+.bigGlyph {
+  font-size: 20px;
+}
+
+.row {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+}
+
+/* macOS 제어 센터처럼 둥근 막대가 채워지는 슬라이더 */
+.slider {
+  position: relative;
+  display: block;
+  height: 24px;
+}
+
+.sliderIcon {
+  position: absolute;
+  top: 50%;
+  left: 7px;
+  z-index: 1;
+  font-size: 12px;
+  color: #8e8e93;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.slider input {
+  width: 100%;
+  height: 24px;
+  margin: 0;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    #fff 0 var(--v),
+    rgba(142, 142, 147, 0.35) var(--v) 100%
+  );
+  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.15);
+  appearance: none;
+  cursor: pointer;
+}
+
+.slider input::-webkit-slider-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.2);
+  appearance: none;
+}
+
+.slider input::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.2);
+}

@@ -1,0 +1,77 @@
+.desktop {
+  --menubar-h: 28px;
+  --dock-space: 56px;
+
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  font-family: var(--os-font);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+.compact {
+  --menubar-h: 30px;
+  --dock-space: calc(76px + env(safe-area-inset-bottom));
+}
+
+/* 직접 만든 바탕화면. 빛 번짐 네 개를 겹친다. */
+.wallpaper {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      60% 80% at 12% 18%,
+      rgba(118, 92, 255, 0.85),
+      transparent 60%
+    ),
+    radial-gradient(
+      55% 70% at 88% 12%,
+      rgba(0, 170, 210, 0.75),
+      transparent 60%
+    ),
+    radial-gradient(
+      70% 80% at 72% 95%,
+      rgba(255, 94, 146, 0.7),
+      transparent 60%
+    ),
+    radial-gradient(
+      60% 60% at 18% 96%,
+      rgba(255, 170, 64, 0.5),
+      transparent 60%
+    ),
+    linear-gradient(160deg, #1b1d40 0%, #0d1026 100%);
+  transition: filter 600ms ease;
+  animation: fade 700ms ease-out;
+}
+
+.night {
+  filter: brightness(0.5) saturate(1.15);
+}
+
+.windows {
+  position: absolute;
+  inset: var(--menubar-h) 0 0 0;
+}
+
+.compact .windows {
+  top: calc(var(--menubar-h) + env(safe-area-inset-top));
+}
+
+/* 제어 센터의 디스플레이 밝기. filter 대신 막을 덮어야 글자가 흐려지지 않는다. */
+.dim {
+  position: absolute;
+  inset: 0;
+  z-index: 2000;
+  background: #000;
+  pointer-events: none;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}

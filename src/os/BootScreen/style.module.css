@@ -1,0 +1,66 @@
+.boot {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 56px;
+  background: #000;
+  color: #f5f5f7;
+  animation: fade 400ms ease-out;
+}
+
+.logo {
+  width: 84px;
+  height: 84px;
+}
+
+.track {
+  width: 200px;
+  height: 5px;
+  border-radius: 3px;
+  background: #3a3a3c;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  background: #f5f5f7;
+  transform-origin: left;
+  animation: load 1.2s cubic-bezier(0.6, 0, 0.25, 1) 0.25s both;
+}
+
+.phoneLogo {
+  display: grid;
+  animation: rise 1.5s ease-out 0.15s both;
+}
+
+@keyframes rise {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  45% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes load {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}

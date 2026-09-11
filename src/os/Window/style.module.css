@@ -1,0 +1,219 @@
+.window {
+  position: absolute;
+  display: flex;
+}
+
+.frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 0.5px var(--win-border),
+    0 14px 40px -12px rgba(0, 0, 0, 0.45);
+  transform-origin: center;
+  /* 드래그는 바깥 section 을 옮기고, 최소화 · 복원은 안쪽 frame 만 움직인다. */
+  transition:
+    transform 420ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 420ms ease;
+  animation: pop 220ms cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+
+.focused .frame {
+  box-shadow:
+    0 0 0 0.5px var(--win-border),
+    0 26px 70px -12px rgba(0, 0, 0, 0.55),
+    0 8px 20px -10px rgba(0, 0, 0, 0.35);
+}
+
+.minimized {
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear 420ms;
+}
+
+.minimized .frame {
+  opacity: 0;
+}
+
+/* 전체 화면: 메뉴 막대 아래를 다 쓴다. 노치가 제목 막대를 가리지 않는다. */
+.full {
+  inset: 0;
+}
+
+.full .frame {
+  border-radius: 0;
+}
+
+.compact.full {
+  bottom: var(--dock-space);
+}
+
+.compact .frame {
+  border-radius: 0 0 12px 12px;
+}
+
+.bar {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  background: var(--bar);
+  border-bottom: 1px solid var(--line);
+  cursor: default;
+  touch-action: none;
+}
+
+.title {
+  position: absolute;
+  inset: 0 84px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.focused .title {
+  color: var(--text);
+}
+
+.lights {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 8px;
+}
+
+.lights button {
+  display: grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--light-off);
+  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.2);
+  font-size: 8px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.lights svg {
+  opacity: 0;
+}
+
+.lights:hover svg {
+  opacity: 1;
+}
+
+.focused .close,
+.lights:hover .close {
+  background: #ff5f57;
+}
+
+.focused .min,
+.lights:hover .min {
+  background: #febc2e;
+}
+
+.focused .max,
+.lights:hover .max {
+  background: #28c840;
+}
+
+.lights button:disabled {
+  background: var(--light-off) !important;
+  cursor: default;
+}
+
+.lights button:disabled svg {
+  opacity: 0 !important;
+}
+
+.body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  user-select: text;
+}
+
+/* 크기 조절 손잡이. 가장자리 안쪽 5px, 모서리 12px */
+.edge {
+  position: absolute;
+  z-index: 2;
+  touch-action: none;
+}
+
+.n,
+.s {
+  left: 10px;
+  right: 10px;
+  height: 5px;
+  cursor: ns-resize;
+}
+.n {
+  top: 0;
+}
+.s {
+  bottom: 0;
+}
+
+.e,
+.w {
+  top: 10px;
+  bottom: 10px;
+  width: 5px;
+  cursor: ew-resize;
+}
+.e {
+  right: 0;
+}
+.w {
+  left: 0;
+}
+
+.ne,
+.nw,
+.se,
+.sw {
+  width: 12px;
+  height: 12px;
+}
+.ne {
+  top: 0;
+  right: 0;
+  cursor: nesw-resize;
+}
+.nw {
+  top: 0;
+  left: 0;
+  cursor: nwse-resize;
+}
+.se {
+  bottom: 0;
+  right: 0;
+  cursor: nwse-resize;
+}
+.sw {
+  bottom: 0;
+  left: 0;
+  cursor: nesw-resize;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}

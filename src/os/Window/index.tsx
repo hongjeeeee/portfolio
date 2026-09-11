@@ -16,23 +16,19 @@ interface Props {
   id: AppId;
   title: string;
   compact: boolean;
-  /** 화면 속 DOM 이 CSS 3D 로 커지거나 줄어든 배율. 포인터 이동량을 이만큼 나눠야 손을 따라온다. */
-  scale: number;
   children: ReactNode;
 }
 
-/** 포인터를 잡고 끄는 동안 움직인 거리(가상 화면 px)를 넘겨준다. */
+/** 포인터를 잡고 끄는 동안 움직인 거리(px)를 넘겨준다. */
 const track = (
   e: ReactPointerEvent<HTMLElement>,
-  scale: number,
   onMove: (dx: number, dy: number) => void,
 ) => {
   const el = e.currentTarget;
   const sx = e.clientX;
   const sy = e.clientY;
   el.setPointerCapture(e.pointerId);
-  const move = (ev: PointerEvent) =>
-    onMove((ev.clientX - sx) / scale, (ev.clientY - sy) / scale);
+  const move = (ev: PointerEvent) => onMove(ev.clientX - sx, ev.clientY - sy);
   const up = () => {
     el.removeEventListener('pointermove', move);
     el.removeEventListener('pointerup', up);
@@ -58,7 +54,7 @@ const resize = (f: Frame, edge: Edge, dx: number, dy: number): Frame => {
   return { x, y, w, h };
 };
 
-const Window = ({ id, title, compact, scale, children }: Props) => {
+const Window = ({ id, title, compact, children }: Props) => {
   const win = useOS((st) => st.windows[id]);
   const focused = useOS((st) => st.focused === id);
   const { close, minimize, toggleMaximize, focus, setFrame } = useOS.getState();
@@ -74,7 +70,7 @@ const Window = ({ id, title, compact, scale, children }: Props) => {
     if (full || e.button !== 0) return;
     if ((e.target as HTMLElement).closest('button')) return;
     const start = { x: win.x, y: win.y, w: win.w, h: win.h };
-    track(e, scale, (dx, dy) =>
+    track(e, (dx, dy) =>
       setFrame(id, { ...start, x: start.x + dx, y: start.y + dy }),
     );
   };
@@ -83,7 +79,7 @@ const Window = ({ id, title, compact, scale, children }: Props) => {
     e.stopPropagation();
     focus(id);
     const start = { x: win.x, y: win.y, w: win.w, h: win.h };
-    track(e, scale, (dx, dy) => setFrame(id, resize(start, edge, dx, dy)));
+    track(e, (dx, dy) => setFrame(id, resize(start, edge, dx, dy)));
   };
 
   const onMinimize = () => {
@@ -95,8 +91,8 @@ const Window = ({ id, title, compact, scale, children }: Props) => {
       const a = el.getBoundingClientRect();
       const b = icon.getBoundingClientRect();
       setGenie({
-        x: (b.left + b.width / 2 - (a.left + a.width / 2)) / scale,
-        y: (b.top + b.height / 2 - (a.top + a.height / 2)) / scale,
+        x: b.left + b.width / 2 - (a.left + a.width / 2),
+        y: b.top + b.height / 2 - (a.top + a.height / 2),
       });
     }
     minimize(id);

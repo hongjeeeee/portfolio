@@ -41,7 +41,6 @@ interface ItemProps {
   id: string;
   title: string;
   mouseX: MotionValue<number | null>;
-  scale: number;
   magnify: boolean;
   running?: boolean;
   onClick?: () => void;
@@ -53,7 +52,6 @@ const DockItem = ({
   id,
   title,
   mouseX,
-  scale,
   magnify,
   running,
   onClick,
@@ -68,7 +66,7 @@ const DockItem = ({
   });
   const fontSize = useTransform(size, (v) => `${v}px`);
 
-  // 마우스와 아이콘 가운데의 거리. 화면 속 DOM 은 3D 로 배율이 걸려 있어 그만큼 나눈다.
+  // 마우스와 아이콘 가운데의 거리
   useAnimationFrame(() => {
     const el = ref.current;
     const x = mouseX.get();
@@ -77,7 +75,7 @@ const DockItem = ({
       return;
     }
     const r = el.getBoundingClientRect();
-    distance.set((x - (r.left + r.width / 2)) / scale);
+    distance.set(x - (r.left + r.width / 2));
   });
 
   const icon = (
@@ -112,15 +110,7 @@ const DockItem = ({
   );
 };
 
-const Dock = ({
-  compact,
-  hidden,
-  scale,
-}: {
-  compact: boolean;
-  hidden: boolean;
-  scale: number;
-}) => {
+const Dock = ({ compact, hidden }: { compact: boolean; hidden: boolean }) => {
   const windows = useOS((st) => st.windows);
   const { open } = useOS.getState();
   const mouseX = useMotionValue<number | null>(null);
@@ -144,7 +134,6 @@ const Dock = ({
             id={id}
             title={title}
             mouseX={mouseX}
-            scale={scale}
             magnify={magnify}
             running={app ? windows[app].open : false}
             onClick={app ? () => open(app) : undefined}

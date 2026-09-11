@@ -15,4 +15,6 @@ export interface PhoneAppDef {
 /** 맥과 같은 앱을 그대로 전체 화면으로 연다. */
 export const PHONE_APPS: Record<AppId, PhoneAppDef> = {
   notes: { ...APPS.notes, nav: true },
+  // 파인더 도구 막대가 제목 막대를 겸한다.
+  projects: { ...APPS.projects },
 };

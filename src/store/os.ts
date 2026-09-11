@@ -4,15 +4,15 @@ import { MENUBAR_H } from '@/three/dims';
 import { computeLayout, type Layout } from '@/three/pose';
 
 /**
- * 화면 속 DOM 은 drei Html 이 따로 만든 React root 에 그려져서 context 가 닿지 않는다.
+ * 3D 기기 화면 속 DOM 은 drei Html 이 따로 만든 React root 에 그려져서 context 가 닿지 않는다.
  * 그래서 노트북 · 아이폰 상태와 화면 속 운영체제 상태를 전부 모듈 스토어 하나에 둔다.
  */
 
 export type Phase =
   'closed' | 'opening' | 'booting' | 'desktop' | 'closing' | 'asleep';
 
-/** 창으로 여는 앱. 지금은 메모 하나고, 독의 나머지는 바깥 링크다. */
-export type AppId = 'notes';
+/** 창으로 여는 앱. 독의 나머지는 바깥 링크다. */
+export type AppId = 'notes' | 'projects';
 
 export interface Frame {
   x: number;
@@ -37,6 +37,7 @@ export const MIN_H = 200;
 const FRAMES: Record<AppId, { w: number; h: number; dx: number; dy: number }> =
   {
     notes: { w: 860, h: 520, dx: 0, dy: -12 },
+    projects: { w: 780, h: 480, dx: 36, dy: 16 },
   };
 
 const defaultFrame = (id: AppId, W: number, H: number): Frame => {
@@ -67,15 +68,27 @@ export const clampFrame = (f: Frame, W: number, H: number): Frame => {
   };
 };
 
-const makeWindows = (layout: Layout): Record<AppId, WindowState> => ({
-  notes: {
-    ...defaultFrame('notes', layout.width, layout.height),
-    open: true,
-    minimized: false,
-    maximized: false,
-    z: 1,
-  },
-});
+/** 처음에는 메모만 열어 둔다. */
+const makeWindows = ({ viewport }: Layout): Record<AppId, WindowState> => {
+  const frame = (id: AppId) =>
+    defaultFrame(id, viewport.width, viewport.height);
+  return {
+    notes: {
+      ...frame('notes'),
+      open: true,
+      minimized: false,
+      maximized: false,
+      z: 1,
+    },
+    projects: {
+      ...frame('projects'),
+      open: false,
+      minimized: false,
+      maximized: false,
+      z: 0,
+    },
+  };
+};
 
 /** 맨 위에 보이는 창. 닫거나 내리면 그다음 창으로 초점이 넘어간다. */
 const topmost = (
@@ -102,7 +115,7 @@ interface OSState {
   layout: Layout;
   /** 0 이면 기기 전체, 1 이면 화면이 뷰포트를 채운다. 켜지면 저절로 1 로 간다. */
   zoom: number;
-  /** 폰에서 아이폰 화면에 다 다가간 뒤, 진짜 크기의 화면으로 바꿔 끼운 상태 */
+  /** 기기 화면에 다 다가간 뒤, 3D 화면 대신 뷰포트를 꽉 채운 진짜 화면으로 바꿔 끼운 상태 */
   expanded: boolean;
 
   windows: Record<AppId, WindowState>;
@@ -122,6 +135,8 @@ interface OSState {
 
   /** 메모 앱에서 고른 글. Spotlight 에서도 바로 연다. */
   noteId: string | null;
+  /** 프로젝트 앱에서 열어 둔 폴더(글). 없으면 폴더 목록이다. */
+  projectId: string | null;
 
   setPhase: (phase: Phase) => void;
   setViewport: (vw: number, vh: number) => void;
@@ -144,6 +159,8 @@ interface OSState {
 
   setNoteId: (id: string | null) => void;
   showNote: (id: string) => void;
+  setProjectId: (id: string | null) => void;
+  showProject: (id: string) => void;
 
   sleep: () => void;
   wake: () => void;
@@ -153,7 +170,7 @@ export const useOS = create<OSState>((set, get) => ({
   phase: reducedMotion ? 'desktop' : 'closed',
   layout: initialLayout,
   zoom: reducedMotion ? 1 : 0,
-  expanded: reducedMotion && initialLayout.mode === 'compact',
+  expanded: reducedMotion,
 
   windows: makeWindows(initialLayout),
   focused: 'notes',
@@ -172,32 +189,38 @@ export const useOS = create<OSState>((set, get) => ({
   airdrop: false,
 
   noteId: null,
+  projectId: null,
 
   setPhase: (phase) =>
     set((s) => ({
       phase,
-      // 다 켜지면 화면 쪽으로 다가간다. 다시 열 때는 멀리서부터 다시 보여 준다.
-      // 폰은 다 다가간 뒤 CameraRig 가 진짜 크기의 화면으로 바꿔 끼운다(expanded).
-      zoom: phase === 'desktop' ? 1 : phase === 'opening' ? 0 : s.zoom,
+      // 부팅이 시작되면 막대가 차는 동안 화면 쪽으로 다가가, 다 차자마자 넘어갈 수 있게 한다.
+      // 다시 열 때는 멀리서부터 다시 보여 준다. 다 다가가면 CameraRig 가 진짜 화면으로 바꿔 끼운다(expanded).
+      zoom:
+        phase === 'booting' || phase === 'desktop'
+          ? 1
+          : phase === 'opening'
+            ? 0
+            : s.zoom,
     })),
 
   setViewport: (vw, vh) =>
     set((s) => {
       const layout = computeLayout(vw, vh);
+      const { width, height } = layout.viewport;
       const windows = { ...s.windows };
       for (const id of Object.keys(windows) as AppId[]) {
         windows[id] = {
           ...windows[id],
-          ...clampFrame(windows[id], layout.width, layout.height),
+          ...clampFrame(windows[id], width, height),
         };
       }
+      // 맥북 ↔ 아이폰이 바뀌면 다가가는 장면을 다시 보이지 않고 바로 진짜 화면을 띄운다.
       const modeChanged = layout.mode !== s.layout.mode;
       return {
         layout,
         windows,
-        expanded: modeChanged
-          ? layout.mode === 'compact' && s.phase === 'desktop'
-          : s.expanded,
+        expanded: modeChanged ? s.phase === 'desktop' : s.expanded,
       };
     }),
 
@@ -254,7 +277,11 @@ export const useOS = create<OSState>((set, get) => ({
         ...s.windows,
         [id]: {
           ...s.windows[id],
-          ...clampFrame(frame, s.layout.width, s.layout.height),
+          ...clampFrame(
+            frame,
+            s.layout.viewport.width,
+            s.layout.viewport.height,
+          ),
         },
       },
     })),
@@ -272,6 +299,11 @@ export const useOS = create<OSState>((set, get) => ({
   showNote: (noteId) => {
     set({ noteId });
     get().open('notes');
+  },
+  setProjectId: (projectId) => set({ projectId }),
+  showProject: (projectId) => {
+    set({ projectId });
+    get().open('projects');
   },
 
   sleep: () => set({ expanded: false, spotlight: false, phase: 'closing' }),

@@ -36,11 +36,13 @@ export interface Fit {
 }
 
 export interface Layout {
-  /** screen: 맥북 화면에 다가가 그 안에서 쓴다. compact: 폰이라 아이폰을 띄우고, 다가간 뒤 화면을 뷰포트로 꺼낸다. */
+  /** screen: 맥북을 띄운다. compact: 폰이라 아이폰을 띄운다. 둘 다 화면에 다가간 뒤 뷰포트를 채운 진짜 화면으로 바꿔 끼운다. */
   mode: 'screen' | 'compact';
-  /** 가상 화면 해상도(CSS px). 화면으로 다가간 시점에서 1:1 로 그려지도록 잡아야 글자가 선명하다. */
+  /** 3D 기기 화면에 붙이는 DOM 의 가상 해상도(CSS px). 다가간 시점에서 1:1 로 그려지도록 잡아야 글자가 선명하다. */
   width: number;
   height: number;
+  /** 브라우저 창 크기. 바꿔 끼운 뒤의 바탕화면과 창은 이 크기 안에서 움직인다. */
+  viewport: { width: number; height: number };
   rects: Record<View, Rect>;
 }
 
@@ -227,6 +229,7 @@ export function computeLayout(vw: number, vh: number): Layout {
       mode: 'compact',
       width,
       height: Math.round((width * PHONE_DISPLAY.h) / PHONE_DISPLAY.w),
+      viewport: { width: vw, height: vh },
       rects: rectsFor(IPHONE, aspect, vw, vh),
     };
   }
@@ -236,6 +239,7 @@ export function computeLayout(vw: number, vh: number): Layout {
     mode: 'screen',
     width,
     height: Math.round(width / DISPLAY_ASPECT),
+    viewport: { width: vw, height: vh },
     rects: mac,
   };
 }

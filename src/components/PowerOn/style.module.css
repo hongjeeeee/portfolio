@@ -1,0 +1,32 @@
+/* drei Html 은 z-index 0~10 을 쓴다. 그 위를 덮어 3D 장면을 가린다. */
+.black {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: #000;
+}
+
+/* 까맣게 잠깐 멈췄다가, 살짝 커져 있던 화면이 제자리로 오며 켜진다. */
+.screen {
+  position: absolute;
+  inset: 0;
+  animation: on 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes on {
+  0%,
+  30% {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen {
+    animation: none;
+  }
+}

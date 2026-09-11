@@ -1,7 +1,7 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { useNow } from '@/hooks/useNow';
 import { Wallpaper } from '@/os/Desktop';
-import { DOCK_ITEMS, linkTarget } from '@/os/dockItems';
+import { DOCK_ITEMS, linkTarget, type DockItemDef } from '@/os/dockItems';
 import Glyph from '@/os/glyphs';
 import { useOS, type AppId } from '@/store/os';
 import { cx } from '@/utils/cx';
@@ -121,6 +121,19 @@ const Home = ({ inPhone = false }: { inPhone?: boolean }) => {
   // 바탕화면이나 어두운 앱 위에서는 상태 바 글자가 희다.
   const light = !app || dark || !!PHONE_APPS[app].darkChrome;
 
+  const icon = ({ id, title, Icon, app, href }: DockItemDef, label = false) => (
+    <HomeIcon
+      key={id}
+      id={id}
+      title={title}
+      label={label}
+      onClick={app ? () => launch(app) : undefined}
+      href={app ? undefined : href}
+    >
+      <Icon />
+    </HomeIcon>
+  );
+
   return (
     <div
       ref={root}
@@ -137,6 +150,7 @@ const Home = ({ inPhone = false }: { inPhone?: boolean }) => {
       <div className={cx(s.springboard, app && !closing && s.away)}>
         <div className={s.grid}>
           <CalendarWidget />
+          {DOCK_ITEMS.filter((d) => d.home).map((d) => icon(d, true))}
         </div>
 
         <button
@@ -149,17 +163,7 @@ const Home = ({ inPhone = false }: { inPhone?: boolean }) => {
         </button>
 
         <nav className={s.dock} aria-label="독">
-          {DOCK_ITEMS.map(({ id, title, Icon, app, href }) => (
-            <HomeIcon
-              key={id}
-              id={id}
-              title={title}
-              onClick={app ? () => launch(app) : undefined}
-              href={app ? undefined : href}
-            >
-              <Icon />
-            </HomeIcon>
-          ))}
+          {DOCK_ITEMS.filter((d) => !d.home).map((d) => icon(d))}
         </nav>
       </div>
 

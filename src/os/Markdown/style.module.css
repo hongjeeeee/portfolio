@@ -1,0 +1,198 @@
+.markdown {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 30px 48px 56px;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+.narrow {
+  padding: 16px 22px 40px;
+}
+
+.markdown > :first-child {
+  margin-top: 0;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4 {
+  margin-top: 28px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.markdown h1 {
+  font-size: 28px;
+}
+.markdown h2 {
+  font-size: 22px;
+}
+.markdown h3 {
+  font-size: 18px;
+}
+.markdown h4 {
+  font-size: 16px;
+}
+
+.markdown p {
+  margin-top: 16px;
+}
+
+.markdown a {
+  color: #dd4c4f;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.markdown ul,
+.markdown ol {
+  margin-top: 10px;
+  padding-left: 22px;
+}
+
+.markdown ul > li::marker {
+  color: #dd4c4f;
+}
+
+.markdown li + li {
+  margin-top: 4px;
+}
+
+.markdown blockquote {
+  margin-top: 16px;
+  padding-left: 14px;
+  border-left: 3px solid #dd4c4f;
+  color: var(--text-2);
+}
+
+.markdown code {
+  padding: 1px 5px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--hover);
+  font-family: var(--os-mono);
+  font-size: 13px;
+}
+
+.markdown pre {
+  margin-top: 14px;
+  padding: 12px 14px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--hover);
+}
+
+.markdown pre code {
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.markdown img {
+  max-width: 100%;
+  margin-top: 14px;
+  border-radius: 6px;
+}
+
+/* 표는 노션 표처럼 가는 가로 · 세로 선만 긋는다. 칸이 넘치면 표만 옆으로 스크롤된다. */
+.markdown table {
+  display: block;
+  margin-top: 16px;
+  overflow: auto;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.55;
+  /* 본문처럼 아무 데서나 줄을 바꾸면 칸이 글자 한두 개 폭까지 줄어든다. 표에서는 띄어쓰기에서만 바꾼다. */
+  overflow-wrap: normal;
+}
+
+.markdown th,
+.markdown td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.markdown th + th,
+.markdown td + td {
+  border-left: 1px solid var(--line);
+}
+
+/* 첫 칸(보통 이름)은 좁아져도 이 폭은 지킨다. 모자라면 표가 옆으로 스크롤된다. */
+.markdown td:first-child {
+  min-width: 9em;
+}
+
+.markdown th {
+  color: var(--text-2);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.markdown th:not([align]) {
+  text-align: left;
+}
+
+.markdown td img {
+  max-height: 40px;
+  margin: 0;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+/* 태그. 글에 {{이름}} · {{이름:색}} 으로 쓴다(os/notes.ts). 진하기는 테마의 --tag-mix 가 정한다. */
+.markdown [data-tag] {
+  display: inline-block;
+  margin: 1px 4px 1px 0;
+  padding: 0 7px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--tag) var(--tag-mix), transparent);
+  color: var(--tag-text);
+  font-size: 13px;
+  line-height: 22px;
+  white-space: nowrap;
+}
+
+.markdown [data-tag='default'] {
+  --tag: #5a5a5e;
+}
+.markdown [data-tag='gray'] {
+  --tag: #8e8e93;
+}
+.markdown [data-tag='brown'] {
+  --tag: #9a6b4f;
+}
+.markdown [data-tag='orange'] {
+  --tag: #d9772b;
+}
+.markdown [data-tag='yellow'] {
+  --tag: #c99a2e;
+}
+.markdown [data-tag='green'] {
+  --tag: #2f9e5f;
+}
+.markdown [data-tag='blue'] {
+  --tag: #2f7fd6;
+}
+.markdown [data-tag='purple'] {
+  --tag: #8b5cc9;
+}
+.markdown [data-tag='pink'] {
+  --tag: #cf4f8e;
+}
+.markdown [data-tag='red'] {
+  --tag: #d9534a;
+}
+
+.markdown hr {
+  margin: 24px 0;
+  border: none;
+  border-top: 1px solid var(--line);
+}

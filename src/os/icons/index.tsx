@@ -39,6 +39,49 @@ export const NotesIcon = () => {
   );
 };
 
+/** 파일 앱 · 파인더의 파란 폴더. 받은 그림을 보고 다시 그렸다. 64×48 판, 크기는 부모를 따른다. */
+export const FolderGlyph = ({ className }: { className?: string }) => {
+  const front = useId();
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 64 48"
+      width="1em"
+      height="1em"
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id={front} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#5ac8fa" />
+          <stop offset="1" stopColor="#1b7cf2" />
+        </linearGradient>
+      </defs>
+      {/* 뒤판과 탭 */}
+      <path
+        d="M4 10a5 5 0 0 1 5-5h15.2a4 4 0 0 1 3 1.4l3.4 3.9a4 4 0 0 0 3 1.4H55a5 5 0 0 1 5 5V22H4z"
+        fill="#1f86f0"
+      />
+      {/* 앞판 위로 살짝 보이는 종이 */}
+      <rect x="7" y="14" width="50" height="6" rx="1.6" fill="#fff" />
+      <rect
+        x="4"
+        y="17"
+        width="56"
+        height="29"
+        rx="5"
+        fill={`url(#${front})`}
+      />
+    </svg>
+  );
+};
+
+/** 독의 프로젝트 앱. 파일 앱처럼 흰 타일에 파란 폴더를 얹는다. */
+export const FolderIcon = () => (
+  <Tile bg="#ffffff">
+    <FolderGlyph className={s.folder} />
+  </Tile>
+);
+
 export const LinkedInIcon = () => (
   <Tile bg="linear-gradient(180deg, #1478d4, #0a5fb4)">
     <Full>

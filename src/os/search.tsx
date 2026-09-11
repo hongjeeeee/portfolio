@@ -1,11 +1,13 @@
 import type { ReactNode } from 'react';
+import { noteCategories } from '@/config/notes';
 import { useOS } from '@/store/os';
 import { APP_ORDER, APPS } from './apps';
 import { DOCK_ITEMS } from './dockItems';
 import Glyph from './glyphs';
+import { FolderGlyph } from './icons';
 import { notes } from './notes';
 
-export type SearchGroup = '애플리케이션' | '메모' | '링크';
+export type SearchGroup = '애플리케이션' | '메모' | '프로젝트' | '링크';
 
 export interface SearchItem {
   key: string;
@@ -16,14 +18,17 @@ export interface SearchItem {
   run: () => void;
 }
 
+/** 메모 앱에 나오는 분류. 나머지 글(프로젝트)은 프로젝트 앱에 폴더로 나온다. */
+const NOTE_CATEGORIES = new Set(noteCategories.map((c) => c.id));
+
 /**
- * Spotlight(맥)와 검색(아이폰)이 같이 쓴다. 앱 · 메모 · 독의 링크를 찾는다.
- * 앱과 메모는 스토어의 open 으로 열어서, 맥에서는 창이, 아이폰에서는 전체 화면 앱이 뜬다.
+ * Spotlight(맥)와 검색(아이폰)이 같이 쓴다. 앱 · 메모 · 프로젝트 · 독의 링크를 찾는다.
+ * 앱과 글은 스토어의 open 으로 열어서, 맥에서는 창이, 아이폰에서는 전체 화면 앱이 뜬다.
  */
 export const searchItems = (query: string): SearchItem[] => {
   const q = query.trim().toLowerCase();
   if (!q) return [];
-  const { open, showNote } = useOS.getState();
+  const { open, showNote, showProject } = useOS.getState();
   const hit = (...texts: (string | undefined)[]) =>
     texts.some((t) => t?.toLowerCase().includes(q));
 
@@ -39,8 +44,9 @@ export const searchItems = (query: string): SearchItem[] => {
       };
     },
   );
-  const memo = notes
-    .filter((n) => hit(n.title, n.excerpt, n.body))
+  const found = notes.filter((n) => hit(n.title, n.excerpt, n.body));
+  const memo = found
+    .filter((n) => NOTE_CATEGORIES.has(n.category))
     .map((n): SearchItem => ({
       key: `note:${n.id}`,
       group: '메모',
@@ -48,6 +54,16 @@ export const searchItems = (query: string): SearchItem[] => {
       sub: n.excerpt,
       icon: <Glyph name="doc" />,
       run: () => showNote(n.id),
+    }));
+  const projects = found
+    .filter((n) => n.category === 'projects')
+    .map((n): SearchItem => ({
+      key: `project:${n.id}`,
+      group: '프로젝트',
+      title: n.title,
+      sub: n.excerpt,
+      icon: <FolderGlyph />,
+      run: () => showProject(n.id),
     }));
   const links = DOCK_ITEMS.filter((d) => d.href && hit(d.title, d.href)).map(
     ({ id, title, Icon, href = '' }): SearchItem => ({
@@ -62,5 +78,5 @@ export const searchItems = (query: string): SearchItem[] => {
       },
     }),
   );
-  return [...apps, ...memo, ...links];
+  return [...apps, ...memo, ...projects, ...links];
 };

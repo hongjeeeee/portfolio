@@ -3,6 +3,7 @@ import { useElementWidth } from '@/hooks/useElementWidth';
 import { useOS } from '@/store/os';
 import { cx } from '@/utils/cx';
 import Glyph from '../../glyphs';
+import Markdown from '../../Markdown';
 import { notes, notesIn } from '../../notes';
 import s from './style.module.css';
 
@@ -82,10 +83,7 @@ const Notes = () => {
               <Glyph name="external" /> 링크 열기
             </a>
           )}
-          <article
-            className={s.markdown}
-            dangerouslySetInnerHTML={{ __html: current.html }}
-          />
+          <Markdown html={current.html} narrow={narrow} />
         </>
       ) : (
         <p className={s.empty}>메모 없음</p>

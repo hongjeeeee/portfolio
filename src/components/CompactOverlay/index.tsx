@@ -9,7 +9,7 @@ import s from './style.module.css';
  * clip-path 의 시작점이 3D 화면이 그려진 자리라 이음매가 보이지 않는다.
  */
 const CompactOverlay = () => {
-  const expanded = useOS((st) => st.expanded);
+  const expanded = useOS((st) => st.expanded && st.layout.mode === 'compact');
   const rect = useOS((st) => st.layout.rects.focus);
 
   if (!expanded) return null;

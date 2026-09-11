@@ -1,0 +1,143 @@
+.finder {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--notes-bg);
+  color: var(--text);
+  font-size: 13px;
+}
+
+/* ---------- 도구 막대: 뒤로 · 앞으로, 지금 보는 곳 ---------- */
+
+.toolbar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bar);
+}
+
+.nav {
+  display: flex;
+  gap: 2px;
+}
+
+.nav button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 26px;
+  border-radius: 6px;
+  color: var(--text-2);
+  font-size: 16px;
+}
+
+.nav button:not(:disabled):hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.nav button:disabled {
+  opacity: 0.35;
+}
+
+.path {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.visit {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: var(--hover);
+  color: #dd4c4f;
+  font-size: 12px;
+}
+
+/* ---------- 폴더 격자 ---------- */
+
+.grid {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+  grid-auto-rows: max-content;
+  align-content: start;
+  gap: 14px 6px;
+  padding: 20px 16px;
+  overflow: auto;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px 8px;
+  border-radius: 10px;
+  color: inherit;
+}
+
+.item:hover {
+  background: var(--hover);
+}
+
+.folder {
+  width: 72px;
+  height: auto;
+  filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.18));
+}
+
+.name {
+  display: -webkit-box;
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 12.5px;
+  line-height: 1.35;
+  text-align: center;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  padding: 40px 16px;
+  color: var(--text-3);
+  text-align: center;
+}
+
+/* 파인더 아래 상태 막대처럼 항목 수를 적는다. */
+.status {
+  flex: none;
+  padding: 4px 12px;
+  border-top: 1px solid var(--line);
+  color: var(--text-2);
+  font-size: 11.5px;
+  text-align: center;
+}
+
+/* ---------- 폴더 안(글) ---------- */
+
+.page {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+/* 폰: 한 줄에 셋 */
+.compact .grid {
+  grid-template-columns: repeat(3, 1fr);
+  padding: 16px 10px;
+}

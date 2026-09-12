@@ -4,7 +4,7 @@ excerpt: 성홍제 | Hongje Seong
 order: 1
 ---
 
-<img src="/profile.jpeg" width="150px"/>
+<img src="profile.jpeg" width="150px"/>
 
 #### 안녕하세요, 프론트엔드 개발자 성홍제입니다.
 
@@ -13,10 +13,3 @@ order: 1
 
 Phone | 010-9967-4365 <br/>
 Email | hongjeeee@mail.ulsan.ac.kr
-
----
-
-### Certificate
-
-정보처리산업기사 (24251160152D)
-

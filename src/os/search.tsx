@@ -7,7 +7,7 @@ import Glyph from './glyphs';
 import { FolderGlyph } from './icons';
 import { notes } from './notes';
 
-export type SearchGroup = '애플리케이션' | '메모' | '프로젝트' | '링크';
+export type SearchGroup = '애플리케이션' | '메모' | '파인더' | '링크';
 
 export interface SearchItem {
   key: string;
@@ -51,10 +51,10 @@ export const searchItems = (query: string): SearchItem[] => {
       run: () => showNote(n.id),
     }));
   const projects = found
-    .filter((n) => n.category === 'projects')
+    .filter((n) => !NOTE_CATEGORIES.has(n.category))
     .map((n): SearchItem => ({
       key: `project:${n.id}`,
-      group: '프로젝트',
+      group: '파인더',
       title: n.title,
       sub: n.excerpt,
       icon: <FolderGlyph />,

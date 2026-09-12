@@ -1,30 +1,49 @@
 import { useState } from 'react';
+import { FINDER_ROOT, finderFolders } from '@/config/notes';
 import { useOS } from '@/store/os';
 import { cx } from '@/utils/cx';
 import Glyph from '../../glyphs';
-import { FolderGlyph } from '../../icons';
+import { DocGlyph, FolderGlyph } from '../../icons';
 import Markdown from '../../Markdown';
-import { notesIn } from '../../notes';
+import { notes, notesIn } from '../../notes';
 import s from './style.module.css';
 
-// 글 위치: src/content/projects/*.md
-const Projects = () => {
-  const projectId = useOS((st) => st.projectId);
+// 글 위치: src/content/<폴더>/*.md · 폴더 목록: src/config/notes.ts
+const Finder = () => {
+  const path = useOS((st) => st.projectId);
   const { setProjectId } = useOS.getState();
   const compact = useOS((st) => st.layout.mode === 'compact');
 
   const [ahead, setAhead] = useState<string | null>(null);
 
-  const list = notesIn('projects');
-  const current = list.find((p) => p.id === projectId) ?? null;
+  const doc = notes.find((n) => n.id === path) ?? null;
+  const folder = finderFolders.find(
+    (f) => f.id === (doc ? doc.category : path),
+  );
 
-  const enter = (id: string) => {
+  const entries = doc
+    ? []
+    : folder
+      ? notesIn(folder.id).map((n) => ({
+          key: n.id,
+          name: n.title,
+          hint: n.excerpt || n.title,
+          doc: true,
+        }))
+      : finderFolders.map((f) => ({
+          key: f.id,
+          name: f.title,
+          hint: `${notesIn(f.id).length}개 항목`,
+          doc: false,
+        }));
+
+  const go = (id: string | null) => {
     setAhead(null);
     setProjectId(id);
   };
   const back = () => {
-    setAhead(current?.id ?? null);
-    setProjectId(null);
+    setAhead(path);
+    setProjectId(doc ? doc.category : null);
   };
 
   return (
@@ -34,25 +53,27 @@ const Projects = () => {
           <button
             type="button"
             onClick={back}
-            disabled={!current}
+            disabled={!folder}
             aria-label="뒤로"
           >
             <Glyph name="back" strokeWidth={2.2} />
           </button>
           <button
             type="button"
-            onClick={() => ahead && enter(ahead)}
-            disabled={!!current || !ahead}
+            onClick={() => ahead && go(ahead)}
+            disabled={!ahead}
             aria-label="앞으로"
           >
             <Glyph name="forward" strokeWidth={2.2} />
           </button>
         </div>
-        <strong className={s.path}>{current?.title ?? '프로젝트'}</strong>
-        {current?.link && (
+        <strong className={s.path}>
+          {[FINDER_ROOT, folder?.title, doc?.title].filter(Boolean).join(' › ')}
+        </strong>
+        {doc?.link && (
           <a
             className={s.visit}
-            href={current.link}
+            href={doc.link}
             target="_blank"
             rel="noreferrer"
           >
@@ -61,32 +82,36 @@ const Projects = () => {
         )}
       </header>
 
-      {current ? (
+      {doc ? (
         <div className={s.page}>
-          <Markdown html={current.html} narrow={compact} />
+          <Markdown html={doc.html} narrow={compact} />
         </div>
       ) : (
         <>
           <div className={s.grid}>
-            {list.length === 0 && <p className={s.empty}>항목 없음</p>}
-            {list.map((p) => (
+            {entries.length === 0 && <p className={s.empty}>항목 없음</p>}
+            {entries.map((e) => (
               <button
-                key={p.id}
+                key={e.key}
                 type="button"
                 className={s.item}
-                onClick={() => enter(p.id)}
-                title={p.excerpt || p.title}
+                onClick={() => go(e.key)}
+                title={e.hint}
               >
-                <FolderGlyph className={s.folder} />
-                <span className={s.name}>{p.title}</span>
+                {e.doc ? (
+                  <DocGlyph className={s.icon} />
+                ) : (
+                  <FolderGlyph className={s.icon} />
+                )}
+                <span className={s.name}>{e.name}</span>
               </button>
             ))}
           </div>
-          <footer className={s.status}>{list.length}개 항목</footer>
+          <footer className={s.status}>{entries.length}개 항목</footer>
         </>
       )}
     </div>
   );
 };
 
-export default Projects;
+export default Finder;

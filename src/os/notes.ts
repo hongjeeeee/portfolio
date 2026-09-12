@@ -19,6 +19,22 @@ const files = import.meta.glob<string>('/src/content/*/*.md', {
   eager: true,
 });
 
+// 추가: [글 안의 이미지] · src/assets/ 에 넣고 파일명으로 쓰면 됨
+const assets = import.meta.glob<string>(
+  '/src/assets/*.{png,jpg,jpeg,webp,gif,svg}',
+  { query: '?url', import: 'default', eager: true },
+);
+
+const resolveAssets = (html: string) =>
+  html.replace(/src="([^"]+)"/g, (tag, src: string) => {
+    if (/^(https?:|data:)/.test(src)) return tag;
+    const name = src.split('/').pop();
+    const url = Object.entries(assets).find(([p]) =>
+      p.endsWith(`/${name}`),
+    )?.[1];
+    return url ? `src="${url}"` : tag;
+  });
+
 const splitFrontmatter = (raw: string) => {
   const m = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(raw);
   const meta: Record<string, string> = {};
@@ -135,7 +151,7 @@ export const notes: Note[] = Object.entries(files)
       link: meta.link || undefined,
       order: meta.order ? Number(meta.order) : Infinity,
       body,
-      html: marked.parse(body, { async: false }),
+      html: resolveAssets(marked.parse(body, { async: false })),
     };
   })
   .sort((a, b) => a.order - b.order || a.slug.localeCompare(b.slug));

@@ -54,6 +54,9 @@
 .windows {
   position: absolute;
   inset: var(--menubar-h) 0 0 0;
+
+  /* 바탕화면 아이콘이 클릭되도록 · 창은 .window 에서 다시 켬 */
+  pointer-events: none;
 }
 
 .compact .windows {

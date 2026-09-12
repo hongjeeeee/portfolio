@@ -88,9 +88,9 @@
   background: var(--hover);
 }
 
-.folder {
-  width: 72px;
-  height: auto;
+.icon {
+  width: auto;
+  height: 56px;
   filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.18));
 }
 

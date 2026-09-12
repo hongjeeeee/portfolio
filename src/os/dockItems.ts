@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { links } from '@/config/links';
 import type { AppId } from '@/store/os';
 import {
-  FolderIcon,
+  FinderIcon,
   GithubIcon,
   InstagramIcon,
   LinkedInIcon,
@@ -24,14 +24,14 @@ export interface DockItemDef {
 
 // 추가: [독 항목]
 export const DOCK_ITEMS: DockItemDef[] = [
-  { id: 'notes', title: '메모', Icon: NotesIcon, app: 'notes' },
   {
     id: 'projects',
-    title: '프로젝트',
-    Icon: FolderIcon,
+    title: 'Finder',
+    Icon: FinderIcon,
     app: 'projects',
     home: true,
   },
+  { id: 'notes', title: '메모', Icon: NotesIcon, app: 'notes' },
   {
     id: 'linkedin',
     title: 'LinkedIn',

@@ -1,0 +1,50 @@
+.layer {
+  position: absolute;
+  inset: var(--menubar-h) 14px var(--dock-space) auto;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-top: 14px;
+  animation: fade 900ms ease-out;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 92px;
+  padding: 7px 4px 5px;
+  border-radius: 9px;
+  color: #fff;
+}
+
+.item:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.item:active {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.icon {
+  width: auto;
+  height: 46px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+}
+
+.name {
+  font-size: 12px;
+  line-height: 1.3;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+  word-break: keep-all;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}

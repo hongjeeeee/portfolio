@@ -1,179 +1,49 @@
-import { useId, type PropsWithChildren } from 'react';
 import s from './style.module.css';
 
-const Tile = ({ bg, children }: PropsWithChildren<{ bg: string }>) => (
-  <span className={s.tile} style={{ background: bg }}>
-    {children}
-  </span>
+// 수정: [아이콘 이미지] · src/assets/icons/<이름>.png 를 바꾸면 그대로 반영
+const files = import.meta.glob<string>(
+  '/src/assets/icons/*.{png,jpg,jpeg,svg,webp}',
+  { query: '?url', import: 'default', eager: true },
 );
 
-const Full = ({ children }: PropsWithChildren) => (
-  <svg className={s.full} viewBox="0 0 60 60" aria-hidden>
-    {children}
-  </svg>
+const url = (name: string) =>
+  Object.entries(files).find(([path]) => path.includes(`/${name}.`))?.[1];
+
+const Image = ({ name, className }: { name: string; className?: string }) => (
+  <img className={className ?? s.image} src={url(name)} alt="" />
 );
 
-// 추가: [독 아이콘]
-export const NotesIcon = () => {
-  const top = useId();
-  return (
-    <Tile bg="#ffffff">
-      <Full>
-        <defs>
-          <linearGradient id={top} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#ffe36e" />
-            <stop offset="1" stopColor="#f8c323" />
-          </linearGradient>
-        </defs>
-        <rect width="60" height="16.5" fill={`url(#${top})`} />
-        {Array.from({ length: 11 }, (_, i) => (
-          <circle key={i} cx={4 + i * 5.2} cy="21" r="1.1" fill="#c7c7cc" />
-        ))}
-        <path d="M0 33.5h60M0 45.5h60" stroke="#dcdce0" strokeWidth="1" />
-      </Full>
-    </Tile>
-  );
-};
+// 추가: [독 아이콘] · 이름 = 파일 이름
+export const NotesIcon = () => <Image name="notes" />;
+export const FinderIcon = () => <Image name="finder" />;
+export const LinkedInIcon = () => <Image name="linkedin" />;
+export const InstagramIcon = () => <Image name="instagram" />;
+export const OutlookIcon = () => <Image name="outlook" />;
+export const GithubIcon = () => <Image name="github" />;
 
-export const FolderGlyph = ({ className }: { className?: string }) => {
-  const front = useId();
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 64 48"
-      width="1em"
-      height="1em"
-      aria-hidden
-    >
-      <defs>
-        <linearGradient id={front} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#5ac8fa" />
-          <stop offset="1" stopColor="#1b7cf2" />
-        </linearGradient>
-      </defs>
-
-      <path
-        d="M4 10a5 5 0 0 1 5-5h15.2a4 4 0 0 1 3 1.4l3.4 3.9a4 4 0 0 0 3 1.4H55a5 5 0 0 1 5 5V22H4z"
-        fill="#1f86f0"
-      />
-
-      <rect x="7" y="14" width="50" height="6" rx="1.6" fill="#fff" />
-      <rect
-        x="4"
-        y="17"
-        width="56"
-        height="29"
-        rx="5"
-        fill={`url(#${front})`}
-      />
-    </svg>
-  );
-};
-
-export const FolderIcon = () => (
-  <Tile bg="#ffffff">
-    <FolderGlyph className={s.folder} />
-  </Tile>
+export const FolderGlyph = ({ className }: { className?: string }) => (
+  <Image name="folder" className={className} />
 );
 
-export const LinkedInIcon = () => (
-  <Tile bg="linear-gradient(180deg, #1478d4, #0a5fb4)">
-    <Full>
-      <g fill="#fff">
-        <circle cx="18.2" cy="17.6" r="4.1" />
-        <rect x="14.6" y="24.6" width="7.2" height="21.4" rx="0.6" />
-        <path d="M26.4 24.6h6.9v2.9c1.2-2.1 3.9-3.5 7-3.5 5.6 0 7.9 3.5 7.9 9.3V46h-7.2V34.6c0-2.9-.9-4.6-3.3-4.6-2.6 0-4.1 1.9-4.1 4.9V46h-7.2z" />
-      </g>
-    </Full>
-  </Tile>
-);
-
-export const InstagramIcon = () => (
-  <Tile bg="radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%)">
-    <Full>
-      <g fill="none" stroke="#fff" strokeWidth="4.2">
-        <rect x="13" y="13" width="34" height="34" rx="10" />
-        <circle cx="30" cy="30" r="8.2" />
-      </g>
-      <circle cx="40.6" cy="19.4" r="2.6" fill="#fff" />
-    </Full>
-  </Tile>
-);
-
-export const OutlookIcon = () => {
-  const back = useId();
-  const front = useId();
-  return (
-    <Tile bg="linear-gradient(180deg, #ffffff, #eaf1fa)">
-      <Full>
-        <defs>
-          <linearGradient id={back} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#3ccbf4" />
-            <stop offset="1" stopColor="#1181d6" />
-          </linearGradient>
-          <linearGradient id={front} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#1f8fe3" />
-            <stop offset="1" stopColor="#0a4fa3" />
-          </linearGradient>
-        </defs>
-
-        <rect
-          x="21"
-          y="12"
-          width="29"
-          height="36"
-          rx="3.5"
-          fill={`url(#${back})`}
-        />
-        <path
-          d="M21 16.5h29M21 23.5h29M35.5 12v18"
-          stroke="#fff"
-          strokeOpacity=".28"
-          strokeWidth="1.2"
-        />
-        <path d="M21 30h29v15a3 3 0 0 1-3 3H24a3 3 0 0 1-3-3z" fill="#1490df" />
-        <path
-          d="M21 30l14.5 9L50 30"
-          fill="none"
-          stroke="#6fd3fa"
-          strokeWidth="1.6"
-        />
-
-        <rect
-          x="9"
-          y="19"
-          width="22.5"
-          height="22.5"
-          rx="3.6"
-          fill={`url(#${front})`}
-        />
-        <ellipse
-          cx="20.25"
-          cy="30.25"
-          rx="5.3"
-          ry="6.2"
-          fill="none"
-          stroke="#fff"
-          strokeWidth="3"
-        />
-      </Full>
-    </Tile>
-  );
-};
-
-export const GithubMark = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 16 16" aria-hidden>
+export const DocGlyph = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 52 64"
+    width="1em"
+    height="1em"
+    aria-hidden
+  >
     <path
-      fill="currentColor"
-      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+      d="M4.5 6a4 4 0 0 1 4-4H32l15.5 15.5V58a4 4 0 0 1-4 4h-35a4 4 0 0 1-4-4z"
+      fill="#fff"
+      stroke="#c8ccd4"
+      strokeWidth="1.4"
     />
+    <path d="M32 2 47.5 17.5H36a4 4 0 0 1-4-4z" fill="#dfe3ea" />
+    <g stroke="#c3c8d1" strokeWidth="2.2" strokeLinecap="round">
+      <path d="M13 30h26M13 39h26M13 48h17" />
+    </g>
   </svg>
-);
-
-export const GithubIcon = () => (
-  <Tile bg="linear-gradient(180deg, #3a3a3d, #1f1f22)">
-    <GithubMark className={s.mark} />
-  </Tile>
 );
 
 export const LogoGlyph = ({ className }: { className?: string }) => (

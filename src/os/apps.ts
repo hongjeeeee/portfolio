@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import type { AppId } from '@/store/os';
 import Notes from './apps/Notes';
-import Projects from './apps/Projects';
-import { FolderIcon, NotesIcon } from './icons';
+import Finder from './apps/Projects';
+import { FinderIcon, NotesIcon } from './icons';
 
 export interface AppDef {
   title: string;
@@ -13,7 +13,7 @@ export interface AppDef {
 // 추가: [창으로 여는 앱] · store/os.ts 의 AppId, FRAMES 도 같이
 export const APPS: Record<AppId, AppDef> = {
   notes: { title: '메모', Icon: NotesIcon, Body: Notes },
-  projects: { title: '프로젝트', Icon: FolderIcon, Body: Projects },
+  projects: { title: 'Finder', Icon: FinderIcon, Body: Finder },
 };
 
 export const APP_ORDER: AppId[] = ['notes', 'projects'];

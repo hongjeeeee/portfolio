@@ -1,6 +1,7 @@
 import { useOS } from '@/store/os';
 import { cx } from '@/utils/cx';
 import { APP_ORDER, APPS } from '../apps';
+import DesktopIcons from '../DesktopIcons';
 import Dock from '../Dock';
 import Spotlight from '../Spotlight';
 import TopBar from '../TopBar';
@@ -32,6 +33,7 @@ const Desktop = ({ compact = false }: { compact?: boolean }) => {
     >
       <Wallpaper dark={dark} />
       <TopBar compact={compact} />
+      {!compact && <DesktopIcons />}
 
       <div className={s.windows}>
         {APP_ORDER.map((id) => {

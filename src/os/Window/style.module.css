@@ -1,6 +1,7 @@
 .window {
   position: absolute;
   display: flex;
+  pointer-events: auto;
 }
 
 .frame {

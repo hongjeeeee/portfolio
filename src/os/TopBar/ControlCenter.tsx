@@ -60,7 +60,6 @@ const Slider = ({
   </label>
 );
 
-/** 전체 화면은 브라우저 창이 바뀌는 것이라, 상태를 스토어가 아니라 문서에서 읽는다. */
 const useFullscreen = () => {
   const [full, setFull] = useState(() => !!document.fullscreenElement);
   useEffect(() => {

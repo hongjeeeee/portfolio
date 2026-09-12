@@ -4,8 +4,6 @@
   font-size: 13px;
 }
 
-/* ---------- 목록: 애플 메모처럼 분류마다 제목을 달고, 글은 가장자리에서 띄운 둥근 칸에 담는다 ---------- */
-
 .list {
   flex: none;
   width: 260px;
@@ -38,7 +36,6 @@
   text-align: left;
 }
 
-/* 글 사이의 가는 선. 고른 칸 위아래에서는 지워서 칸만 떠 보이게 한다. */
 .items li + li .note::before {
   content: '';
   position: absolute;
@@ -98,8 +95,6 @@
   text-align: center;
 }
 
-/* ---------- 본문 ---------- */
-
 .content {
   position: relative;
   flex: 1;
@@ -128,8 +123,6 @@
   color: #dd4c4f;
   font-size: 12px;
 }
-
-/* ---------- 좁은 창 ---------- */
 
 .narrow .list,
 .narrow .content {

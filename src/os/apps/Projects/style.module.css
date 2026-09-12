@@ -7,8 +7,6 @@
   font-size: 13px;
 }
 
-/* ---------- 도구 막대: 뒤로 · 앞으로, 지금 보는 곳 ---------- */
-
 .toolbar {
   display: flex;
   flex: none;
@@ -65,8 +63,6 @@
   font-size: 12px;
 }
 
-/* ---------- 폴더 격자 ---------- */
-
 .grid {
   display: grid;
   flex: 1;
@@ -118,7 +114,6 @@
   text-align: center;
 }
 
-/* 파인더 아래 상태 막대처럼 항목 수를 적는다. */
 .status {
   flex: none;
   padding: 4px 12px;
@@ -128,15 +123,12 @@
   text-align: center;
 }
 
-/* ---------- 폴더 안(글) ---------- */
-
 .page {
   flex: 1;
   min-height: 0;
   overflow: auto;
 }
 
-/* 폰: 한 줄에 셋 */
 .compact .grid {
   grid-template-columns: repeat(3, 1fr);
   padding: 16px 10px;

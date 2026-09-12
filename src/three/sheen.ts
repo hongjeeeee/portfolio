@@ -1,9 +1,5 @@
 import { CanvasTexture, SRGBColorSpace } from 'three';
 
-/**
- * 꺼진 화면 위를 비스듬히 지나가는 빛. 환경광만 비치면 위아래로 반이 갈려 띠처럼 보여서,
- * 반사는 줄이고 사선 그라데이션을 더해 유리 느낌을 낸다. 맥북 · 아이폰이 같이 쓴다.
- */
 export const sheenTexture = () => {
   const c = document.createElement('canvas');
   c.width = 256;

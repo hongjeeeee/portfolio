@@ -6,7 +6,7 @@ import s from './style.module.css';
 
 export interface MenuProps {
   onClose: () => void;
-  /** 메뉴를 여는 버튼. 이걸 누른 건 바깥을 누른 걸로 치지 않는다. */
+
   ignore: RefObject<HTMLElement | null>[];
 }
 

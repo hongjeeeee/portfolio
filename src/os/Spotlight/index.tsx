@@ -5,7 +5,6 @@ import Glyph from '../glyphs';
 import { searchItems, type SearchItem } from '../search';
 import s from './style.module.css';
 
-/** 열 때마다 새로 그려서 검색어와 선택이 비워진 채로 시작한다. */
 const Panel = () => {
   const setSpotlight = useOS((st) => st.setSpotlight);
   const [query, setQuery] = useState('');
@@ -17,7 +16,6 @@ const Panel = () => {
     setSpotlight(false);
   };
 
-  // preventScroll 이 없으면 브라우저가 입력칸을 보이게 하려고 화면 전체를 민다.
   useEffect(() => input.current?.focus({ preventScroll: true }), []);
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

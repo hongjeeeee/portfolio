@@ -1,5 +1,3 @@
-/* drei Html 은 z-index 0~10 을 쓴다. 그 위에 뜬다.
-   스크롤은 window 에서 받으니 안내 자체는 포인터를 막지 않는다. */
 .hint {
   position: fixed;
   left: 50%;
@@ -20,7 +18,6 @@
   height: 30px;
 }
 
-/* 마우스 속 화살표가 휠을 굴리듯 아래로 흘러내린다. */
 .arrow {
   animation: scroll 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }

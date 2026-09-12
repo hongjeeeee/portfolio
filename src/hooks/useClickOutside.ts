@@ -1,6 +1,5 @@
 import { useEffect, type RefObject } from 'react';
 
-/** ref 바깥을 누르면 닫는다. 여는 버튼(ignore)을 누른 건 바깥으로 치지 않는다. */
 export const useClickOutside = (
   ref: RefObject<HTMLElement | null>,
   onOutside: () => void,

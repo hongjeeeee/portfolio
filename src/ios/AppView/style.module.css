@@ -44,7 +44,6 @@
   min-height: 0;
 }
 
-/* 홈 막대. 누르기 쉽게 막대보다 넓은 자리를 잡는다. */
 .home {
   position: absolute;
   right: 0;

@@ -100,7 +100,6 @@
   border-radius: 6px;
 }
 
-/* 표는 노션 표처럼 가는 가로 · 세로 선만 긋는다. 칸이 넘치면 표만 옆으로 스크롤된다. */
 .markdown table {
   display: block;
   margin-top: 16px;
@@ -108,7 +107,7 @@
   border-collapse: collapse;
   font-size: 14px;
   line-height: 1.55;
-  /* 본문처럼 아무 데서나 줄을 바꾸면 칸이 글자 한두 개 폭까지 줄어든다. 표에서는 띄어쓰기에서만 바꾼다. */
+
   overflow-wrap: normal;
 }
 
@@ -124,7 +123,6 @@
   border-left: 1px solid var(--line);
 }
 
-/* 첫 칸(보통 이름)은 좁아져도 이 폭은 지킨다. 모자라면 표가 옆으로 스크롤된다. */
 .markdown td:first-child {
   min-width: 9em;
 }
@@ -147,7 +145,6 @@
   vertical-align: middle;
 }
 
-/* 태그. 글에 {{이름}} · {{이름:색}} 으로 쓴다(os/notes.ts). 진하기는 테마의 --tag-mix 가 정한다. */
 .markdown [data-tag] {
   display: inline-block;
   margin: 1px 4px 1px 0;

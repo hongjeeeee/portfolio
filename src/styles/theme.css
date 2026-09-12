@@ -1,7 +1,4 @@
-/*
- * 화면 속 운영체제(macOS · iOS)의 색. 라이트 · 다크 두 벌을 여기서만 정한다.
- * 창 · 메뉴 · 독 · 앱이 가져다 쓰고, 다크 모드는 os-dark 클래스 하나로 바뀐다.
- */
+/* 수정: 화면 속 macOS · iOS 의 색. 라이트 · 다크 두 벌. */
 .os-theme {
   --surface: #ffffff;
   --bar: #ececee;
@@ -29,7 +26,6 @@
   --grouped-bg: #f2f2f7;
   --grouped-row: #ffffff;
 
-  /* Liquid Glass. 뒤를 흐리고 채도를 올린 뒤, 위 가장자리에 빛 · 아래 가장자리에 반사를 얇게 긋는다. */
   --glass-fill: rgba(255, 255, 255, 0.18);
   --glass-fill-strong: rgba(246, 246, 250, 0.72);
   --glass-blur: blur(22px) saturate(1.9);

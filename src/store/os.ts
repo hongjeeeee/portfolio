@@ -3,15 +3,10 @@ import { create } from 'zustand';
 import { MENUBAR_H } from '@/three/dims';
 import { computeLayout, type Layout } from '@/three/pose';
 
-/**
- * 3D 기기 화면 속 DOM 은 drei Html 이 따로 만든 React root 에 그려져서 context 가 닿지 않는다.
- * 그래서 노트북 · 아이폰 상태와 화면 속 운영체제 상태를 전부 모듈 스토어 하나에 둔다.
- */
-
 export type Phase =
   'closed' | 'opening' | 'booting' | 'desktop' | 'closing' | 'asleep';
 
-/** 창으로 여는 앱. 독의 나머지는 바깥 링크다. */
+// 추가: 앱을 늘리면 여기에 이름을 넣는다.
 export type AppId = 'notes' | 'projects';
 
 export interface Frame {
@@ -28,12 +23,11 @@ export interface WindowState extends Frame {
   z: number;
 }
 
-/** 창 아래로 독이 차지하는 높이 */
 export const DOCK_SPACE = 56;
 export const MIN_W = 320;
 export const MIN_H = 200;
 
-/** 처음 열 때 크기와, 화면 가운데에서 비켜 놓을 거리 */
+// 추가·수정: 앱 창의 처음 크기와 자리.
 const FRAMES: Record<AppId, { w: number; h: number; dx: number; dy: number }> =
   {
     notes: { w: 860, h: 520, dx: 0, dy: -12 },
@@ -55,7 +49,6 @@ const defaultFrame = (id: AppId, W: number, H: number): Frame => {
   };
 };
 
-/** 제목 막대를 잡을 수 있을 만큼은 늘 화면 안에 남긴다. */
 export const clampFrame = (f: Frame, W: number, H: number): Frame => {
   const area = H - MENUBAR_H;
   const w = MathUtils.clamp(f.w, MIN_W, W);
@@ -68,7 +61,6 @@ export const clampFrame = (f: Frame, W: number, H: number): Frame => {
   };
 };
 
-/** 처음에는 메모만 열어 둔다. */
 const makeWindows = ({ viewport }: Layout): Record<AppId, WindowState> => {
   const frame = (id: AppId) =>
     defaultFrame(id, viewport.width, viewport.height);
@@ -90,7 +82,6 @@ const makeWindows = ({ viewport }: Layout): Record<AppId, WindowState> => {
   };
 };
 
-/** 맨 위에 보이는 창. 닫거나 내리면 그다음 창으로 초점이 넘어간다. */
 const topmost = (
   windows: Record<AppId, WindowState>,
   except?: AppId,
@@ -113,29 +104,28 @@ type Toggle = 'wifi' | 'bluetooth' | 'airdrop';
 interface OSState {
   phase: Phase;
   layout: Layout;
-  /** 0 이면 기기 전체, 1 이면 화면이 뷰포트를 채운다. 켜지면 저절로 1 로 간다. */
+
   zoom: number;
-  /** 기기 화면에 다 다가간 뒤, 3D 화면 대신 뷰포트를 꽉 채운 진짜 화면으로 바꿔 끼운 상태 */
+
   expanded: boolean;
 
   windows: Record<AppId, WindowState>;
   focused: AppId | null;
   zTop: number;
   spotlight: boolean;
-  /** 아이폰에서 전체 화면으로 열려 있는 앱 */
+
   phoneApp: AppId | null;
 
   dark: boolean;
-  /** 0~100. 화면 위에 검은 막을 덮어 어둡게 한다. */
+
   brightness: number;
   volume: number;
   wifi: boolean;
   bluetooth: boolean;
   airdrop: boolean;
 
-  /** 메모 앱에서 고른 글. Spotlight 에서도 바로 연다. */
   noteId: string | null;
-  /** 프로젝트 앱에서 열어 둔 폴더(글). 없으면 폴더 목록이다. */
+
   projectId: string | null;
 
   setPhase: (phase: Phase) => void;
@@ -178,7 +168,6 @@ export const useOS = create<OSState>((set, get) => ({
   spotlight: false,
   phoneApp: null,
 
-  // 맥처럼 시스템 설정의 다크 모드를 따라 시작한다.
   dark:
     typeof matchMedia !== 'undefined' &&
     matchMedia('(prefers-color-scheme: dark)').matches,
@@ -194,8 +183,7 @@ export const useOS = create<OSState>((set, get) => ({
   setPhase: (phase) =>
     set((s) => ({
       phase,
-      // 부팅이 시작되면 막대가 차는 동안 화면 쪽으로 다가가, 다 차자마자 넘어갈 수 있게 한다.
-      // 다시 열 때는 멀리서부터 다시 보여 준다. 다 다가가면 CameraRig 가 진짜 화면으로 바꿔 끼운다(expanded).
+
       zoom:
         phase === 'booting' || phase === 'desktop'
           ? 1
@@ -215,7 +203,7 @@ export const useOS = create<OSState>((set, get) => ({
           ...clampFrame(windows[id], width, height),
         };
       }
-      // 맥북 ↔ 아이폰이 바뀌면 다가가는 장면을 다시 보이지 않고 바로 진짜 화면을 띄운다.
+
       const modeChanged = layout.mode !== s.layout.mode;
       return {
         layout,
@@ -314,7 +302,6 @@ export const useOS = create<OSState>((set, get) => ({
   },
 }));
 
-// 개발 중 콘솔에서 상태를 들여다보고 단계를 건너뛸 수 있게 한다.
 if (import.meta.env.DEV) {
   (window as unknown as { __os: typeof useOS }).__os = useOS;
 }

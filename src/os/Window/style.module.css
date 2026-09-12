@@ -17,7 +17,7 @@
     0 0 0 0.5px var(--win-border),
     0 14px 40px -12px rgba(0, 0, 0, 0.45);
   transform-origin: center;
-  /* 드래그는 바깥 section 을 옮기고, 최소화 · 복원은 안쪽 frame 만 움직인다. */
+
   transition:
     transform 420ms cubic-bezier(0.4, 0, 0.2, 1),
     opacity 420ms ease;
@@ -41,7 +41,6 @@
   opacity: 0;
 }
 
-/* 전체 화면: 메뉴 막대 아래를 다 쓴다. 노치가 제목 막대를 가리지 않는다. */
 .full {
   inset: 0;
 }
@@ -148,7 +147,6 @@
   user-select: text;
 }
 
-/* 크기 조절 손잡이. 가장자리 안쪽 5px, 모서리 12px */
 .edge {
   position: absolute;
   z-index: 2;

@@ -5,10 +5,6 @@ import { useOS } from '@/store/os';
 import { PHONE, PHONE_DISPLAY } from '../dims';
 import s from './style.module.css';
 
-/**
- * 아이폰 화면 자리에 DOM 을 붙인다. 부팅과 다가가는 동안만 보이고,
- * 다 다가가면 CompactOverlay 가 진짜 크기의 화면으로 바꿔 끼운다.
- */
 const PhoneScreen = () => {
   const phase = useOS((st) => st.phase);
   const expanded = useOS((st) => st.expanded);

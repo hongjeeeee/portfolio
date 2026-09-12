@@ -9,10 +9,8 @@ import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js
 import { BASE, FN_ROW as FN, KEY_U as U, KEYBOARD } from './dims';
 import { roundedRect, slab } from './shapes';
 
-/** 키 사이 3mm */
 const GAP = 0.03;
 
-/** 줄마다 키 너비(u). 모두 합이 14.5u 로 같아야 좌우가 맞는다. */
 const ROWS = [
   { h: FN, keys: [1.5, ...Array(12).fill(1), 1] },
   { h: 1, keys: [...Array(13).fill(1), 1.5] },
@@ -22,7 +20,6 @@ const ROWS = [
 ];
 const BOTTOM = [1, 1, 1, 1.25, 5, 1.25, 1];
 
-/** 키 80개를 한 geometry 로 합쳐 draw call 한 번에 그린다. */
 const buildKeys = () => {
   const parts: BufferGeometry[] = [];
   const shapes = new Map<string, BufferGeometry>();
@@ -58,7 +55,7 @@ const buildKeys = () => {
     add(x, z, w, 1);
     x += w;
   }
-  // 뒤집힌 T 자 방향키. 좌우는 아래 반 칸, 위아래는 반 칸씩 포갠다.
+
   add(x, z + 0.5, 1, 0.5);
   add(x + 1, z, 1, 0.5);
   add(x + 1, z + 0.5, 1, 0.5);
@@ -70,7 +67,6 @@ const buildKeys = () => {
   return merged;
 };
 
-/** 스피커 그릴 구멍. 엇갈린 점 격자를 캔버스에 찍어 투명 텍스처로 쓴다. */
 const grilleTexture = () => {
   const c = document.createElement('canvas');
   c.width = 64;

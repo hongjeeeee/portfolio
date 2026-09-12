@@ -1,9 +1,5 @@
 import type { Vector3 } from 'three';
 
-/**
- * Unity 의 SmoothDamp. 속도 0 에서 출발해 가속했다가 감속한다.
- * 지수 감쇠(lerp)는 첫 프레임에 튀어 나가서 뚜껑이 기계처럼 열린다.
- */
 const factors = (smoothTime: number, dt: number) => {
   const omega = 2 / smoothTime;
   const x = omega * dt;

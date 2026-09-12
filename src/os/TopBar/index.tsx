@@ -20,7 +20,6 @@ const timeFmt = new Intl.DateTimeFormat('ko-KR', {
   minute: '2-digit',
 });
 
-/** 모양만 내는 메뉴. 실제로 동작하는 건 왼쪽 표식 메뉴다. */
 const DECOR = ['파일', '편집', '보기', '윈도우', '도움말'];
 
 type Menu = 'logo' | 'wifi' | 'cc' | null;

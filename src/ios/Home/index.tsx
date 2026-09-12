@@ -28,7 +28,7 @@ const CalendarWidget = () => {
 interface IconProps {
   id: string;
   title: string;
-  /** 홈 격자에서는 이름을 달고, 독에서는 뺀다. */
+
   label?: boolean;
   onClick?: () => void;
   href?: string;
@@ -73,10 +73,6 @@ const HomeIcon = ({
   );
 };
 
-/**
- * 아이폰 홈 화면. 3D 아이폰 화면 안(inPhone)에서도,
- * 다가간 뒤 바꿔 끼운 진짜 크기의 화면에서도 같은 컴포넌트를 쓴다.
- */
 const Home = ({ inPhone = false }: { inPhone?: boolean }) => {
   const dark = useOS((st) => st.dark);
   const app = useOS((st) => st.phoneApp);
@@ -86,13 +82,12 @@ const Home = ({ inPhone = false }: { inPhone?: boolean }) => {
   const [closing, setClosing] = useState(false);
   const [searching, setSearching] = useState(false);
 
-  /** 아이콘 가운데. 앱이 여기서 커지고 여기로 줄어든다. */
   const originOf = (id: string) => {
     const box = root.current?.getBoundingClientRect();
     const el = root.current?.querySelector(`[data-icon="${CSS.escape(id)}"]`);
     if (!box || !el) return null;
     const r = el.getBoundingClientRect();
-    // 3D 목업 안에서는 화면이 배율을 먹는다. 레이아웃 px 로 되돌린다.
+
     const k = root.current!.offsetWidth / box.width;
     return {
       x: (r.left + r.width / 2 - box.left) * k,
@@ -106,8 +101,6 @@ const Home = ({ inPhone = false }: { inPhone?: boolean }) => {
     openPhoneApp(id);
   };
 
-  // 줄어드는 애니메이션(360ms)이 끝나면 앱을 내린다.
-  // animationend 를 기다리면 애니메이션을 줄인 설정에서는 영영 닫히지 않는다.
   const goHome = () => {
     if (!app) return;
     setOrigin(originOf(app));
@@ -118,7 +111,6 @@ const Home = ({ inPhone = false }: { inPhone?: boolean }) => {
     }, 360);
   };
 
-  // 바탕화면이나 어두운 앱 위에서는 상태 바 글자가 희다.
   const light = !app || dark || !!PHONE_APPS[app].darkChrome;
 
   const icon = ({ id, title, Icon, app, href }: DockItemDef, label = false) => (

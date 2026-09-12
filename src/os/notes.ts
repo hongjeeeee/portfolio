@@ -1,7 +1,6 @@
 import { marked, type Tokens } from 'marked';
 
 export interface Note {
-  /** '<분류>/<파일 이름>' */
   id: string;
   slug: string;
   category: string;
@@ -9,19 +8,17 @@ export interface Note {
   excerpt: string;
   link?: string;
   order: number;
-  /** 머리말을 뺀 마크다운 원문. 터미널 cat 이 그대로 찍는다. */
+
   body: string;
   html: string;
 }
 
-/** 글은 빌드할 때 번들에 같이 들어간다. 네트워크로 받아 오지 않는다. */
 const files = import.meta.glob<string>('/src/content/*/*.md', {
   query: '?raw',
   import: 'default',
   eager: true,
 });
 
-/** `---` 로 감싼 머리말에서 `키: 값` 만 읽는다. */
 const splitFrontmatter = (raw: string) => {
   const m = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(raw);
   const meta: Record<string, string> = {};
@@ -38,7 +35,6 @@ const splitFrontmatter = (raw: string) => {
   return { meta, body: raw.slice(m[0].length) };
 };
 
-/** 태그 색. 노션의 선택 속성과 같은 이름을 쓴다. */
 const TAG_COLORS = [
   'default',
   'gray',
@@ -52,14 +48,12 @@ const TAG_COLORS = [
   'red',
 ];
 
-/** 색을 안 적은 태그는 이름으로 색을 고른다. 같은 이름은 어느 글에서나 같은 색이다. */
 const autoColor = (name: string) => {
   let h = 0;
   for (const ch of name) h = (h * 31 + ch.codePointAt(0)!) >>> 0;
   return TAG_COLORS[1 + (h % (TAG_COLORS.length - 1))];
 };
 
-/** `{{이름}}` · `{{이름:색}}` 의 안쪽을 이름과 색으로 나눈다. */
 const splitTag = (inner: string): [name: string, color: string] => {
   const i = inner.lastIndexOf(':');
   const color = inner.slice(i + 1).trim();
@@ -93,7 +87,6 @@ const attr = (v: string) => v.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 const escape = (v: string) =>
   v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-// 글 안의 링크는 화면 속 창을 벗어나 새 탭으로 연다.
 marked.use({
   renderer: {
     link(
@@ -106,7 +99,6 @@ marked.use({
   },
 });
 
-// {{이름}} · {{이름:색}} 은 노션처럼 색 칸 태그로 그린다. 표 칸 안에서도 된다.
 marked.use({
   extensions: [
     {

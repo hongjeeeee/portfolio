@@ -18,7 +18,7 @@ body {
   font-family: var(--os-font);
   color: #f5f5f7;
   background-color: var(--stage-bg);
-  /* 노트북 뒤에 조명이 떨어진 듯한 무대 */
+
   background-image: radial-gradient(
     120% 90% at 50% 38%,
     #2a2a31 0%,

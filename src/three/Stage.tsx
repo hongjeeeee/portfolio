@@ -6,11 +6,6 @@ import { FOV } from './dims';
 import MacBook from './MacBook';
 import Phone from './Phone';
 
-/**
- * 넓은 화면에는 맥북, 폰에는 아이폰을 세운다.
- * 외부 HDR 없이 Lightformer 로 스튜디오 조명을 만든다.
- * 금속 재질은 비치는 환경이 전부라, 판 조명 몇 장의 위치가 곧 알루미늄의 인상이다.
- */
 const Stage = () => {
   const compact = useOS((s) => s.layout.mode === 'compact');
   return (

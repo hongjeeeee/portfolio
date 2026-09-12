@@ -4,18 +4,15 @@ import { searchItems } from '@/os/search';
 import s from './style.module.css';
 
 interface Props {
-  /** 결과를 누르기 직전. 홈 화면이 아이콘 자리 대신 가운데에서 앱을 열게 한다. */
   onPick: () => void;
   onClose: () => void;
 }
 
-/** 홈 화면의 '검색' 알약을 누르면 뜬다. 찾는 대상은 맥의 Spotlight 와 같다. */
 const Search = ({ onPick, onClose }: Props) => {
   const [query, setQuery] = useState('');
   const input = useRef<HTMLInputElement>(null);
   const results = searchItems(query);
 
-  // preventScroll 이 없으면 브라우저가 입력칸을 보이게 하려고 화면 전체를 민다.
   useEffect(() => input.current?.focus({ preventScroll: true }), []);
 
   return (

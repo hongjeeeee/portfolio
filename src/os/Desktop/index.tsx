@@ -11,10 +11,6 @@ export const Wallpaper = ({ dark = false }: { dark?: boolean }) => (
   <div className={cx(s.wallpaper, dark && s.night)} />
 );
 
-/**
- * macOS 화면 하나. 맥북에 다가간 뒤 뷰포트를 꽉 채운 화면(DesktopOverlay)과, 3D 를 못 그릴 때의 대체 화면에서 쓴다.
- * compact 에서는 창을 끌 수 없고 늘 메뉴 막대와 독 사이를 꽉 채운다.
- */
 const Desktop = ({ compact = false }: { compact?: boolean }) => {
   const dark = useOS((st) => st.dark);
   const brightness = useOS((st) => st.brightness);

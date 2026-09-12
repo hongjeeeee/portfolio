@@ -11,10 +11,6 @@ import PhoneScreen from './PhoneScreen';
 import { sheenTexture } from './sheen';
 import { roundedRect, slab } from './shapes';
 
-/**
- * 옆면 버튼 [왼쪽 -1 · 오른쪽 1, 가운데 높이, 길이, 색].
- * 왼쪽은 동작 버튼과 음량, 오른쪽은 측면 버튼과 그 아래 카메라 컨트롤.
- */
 const BUTTONS: [number, number, number, string?][] = [
   [-1, 0.44, 0.06],
   [-1, 0.29, 0.095],
@@ -27,7 +23,6 @@ const Phone = () => {
   const phase = useOS((s) => s.phase);
   const setPhase = useOS((s) => s.setPhase);
 
-  // 전원을 켜고 조금 뒤 부팅 화면이 뜬다. 맥북의 '뚜껑이 거의 다 열림' 자리다.
   useEffect(() => {
     if (phase !== 'opening') return;
     const id = setTimeout(() => setPhase('booting'), 900);
@@ -36,7 +31,6 @@ const Phone = () => {
 
   const mat = useMemo(
     () => ({
-      // 맥북과 어울리는 그래파이트 알루미늄. 모서리 깎인 면이 조명을 받아 선이 산다.
       frame: new MeshStandardMaterial({
         color: '#55565b',
         metalness: 0.9,
@@ -59,7 +53,6 @@ const Phone = () => {
   );
   const geo = useMemo(
     () => ({
-      // 판은 XZ 평면에 눕혀 만들어진다. 세워서 앞면이 +z 를 보게 한다.
       body: slab(PHONE.w, PHONE.h, PHONE.d, PHONE.r, 0.009)
         .rotateX(Math.PI / 2)
         .translate(0, 0, -PHONE.d / 2),

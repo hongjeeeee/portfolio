@@ -19,7 +19,6 @@ interface Props {
   children: ReactNode;
 }
 
-/** 포인터를 잡고 끄는 동안 움직인 거리(px)를 넘겨준다. */
 const track = (
   e: ReactPointerEvent<HTMLElement>,
   onMove: (dx: number, dy: number) => void,
@@ -59,7 +58,7 @@ const Window = ({ id, title, compact, children }: Props) => {
   const focused = useOS((st) => st.focused === id);
   const { close, minimize, toggleMaximize, focus, setFrame } = useOS.getState();
   const ref = useRef<HTMLElement>(null);
-  /** 최소화할 때 빨려 들어갈 독 아이콘까지의 거리 */
+
   const [genie, setGenie] = useState({ x: 0, y: 0 });
 
   if (!win.open) return null;

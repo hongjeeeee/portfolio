@@ -1,9 +1,7 @@
-/* 맥북 화면과 같은 이유로 clip. 안쪽 초점 이동이 화면 전체를 밀지 못하게 한다. */
 .wrapper {
   overflow: clip !important;
 }
 
-/* 3D 속 화면은 보여 주기만 한다. 누르는 건 바꿔 끼운 뒤의 진짜 화면이 받는다. */
 .screen {
   position: relative;
   overflow: clip;
@@ -12,7 +10,6 @@
   user-select: none;
 }
 
-/* 화면 유리에 비스듬히 비치는 빛. 누르는 건 그 밑의 화면이 받는다. */
 .sheen {
   position: absolute;
   inset: 0;

@@ -7,7 +7,7 @@
   justify-content: space-between;
   height: var(--menubar-h);
   padding: 0 8px;
-  /* macOS 26 처럼 막대 자체는 투명하다. 글자가 묻히지 않게 위에서 옅은 그늘만 깐다. */
+
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0));
   color: #fff;
   font-size: 13px;
@@ -78,7 +78,6 @@
   height: 12px;
 }
 
-/* 노치. 가운데 두고 양옆 메뉴가 비켜 가게 한다. */
 .notch {
   position: absolute;
   top: 0;
@@ -98,8 +97,6 @@
   border-radius: 50%;
   background: radial-gradient(circle at 35% 35%, #2b3550, #07080c 70%);
 }
-
-/* ---------- 펼침 메뉴 ---------- */
 
 .menu {
   position: absolute;
@@ -199,8 +196,6 @@
 .switch input:checked + span::before {
   transform: translateX(16px);
 }
-
-/* ---------- 제어 센터 ---------- */
 
 .cc {
   position: absolute;
@@ -312,7 +307,6 @@
   padding: 8px 12px;
 }
 
-/* macOS 제어 센터처럼 둥근 막대가 채워지는 슬라이더 */
 .slider {
   position: relative;
   display: block;

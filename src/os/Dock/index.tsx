@@ -12,11 +12,9 @@ import { cx } from '@/utils/cx';
 import { DOCK_ITEMS, linkTarget } from '../dockItems';
 import s from './style.module.css';
 
-/** 아이콘 기본 크기와, 마우스 바로 아래에서 커지는 배율 */
 const SIZE = 30;
 const MAG = 2;
 
-// 확대 곡선은 playground-macos(Renovamen, MIT) 의 독에서 가져왔다.
 const LIMIT = SIZE * 6;
 const INPUT = [
   -LIMIT,
@@ -66,7 +64,6 @@ const DockItem = ({
   });
   const fontSize = useTransform(size, (v) => `${v}px`);
 
-  // 마우스와 아이콘 가운데의 거리
   useAnimationFrame(() => {
     const el = ref.current;
     const x = mouseX.get();

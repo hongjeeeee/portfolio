@@ -9,7 +9,6 @@
     opacity 300ms;
 }
 
-/* 창을 전체 화면으로 키우면 독이 아래로 숨는다. */
 .hidden {
   transform: translate(-50%, 130%);
   opacity: 0;

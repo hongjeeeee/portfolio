@@ -13,7 +13,6 @@
   -webkit-user-select: none;
 }
 
-/* 3D 아이폰 화면 안. 진짜 안전 영역이 없고, 다이내믹 아일랜드 높이만큼 상태 바가 높다. */
 .inPhone {
   --status-h: 54px;
   --safe-top: 0px;
@@ -22,7 +21,6 @@
   pointer-events: none;
 }
 
-/* iOS 사파리는 16px 보다 작은 입력칸에 초점이 가면 페이지를 확대한다. 목업이 흐트러지지 않게 막는다. */
 .home input {
   font-size: 16px;
 }
@@ -38,12 +36,10 @@
     opacity 460ms ease;
 }
 
-/* 독에는 다섯 개가 들어간다. 좁은 폰에서도 한 줄에 맞도록 조금 작게 둔다. */
 .dock .tile {
   font-size: 54px;
 }
 
-/* 앱이 열리면 홈 화면이 살짝 커지며 물러난다. */
 .away {
   transform: scale(1.08);
   opacity: 0;

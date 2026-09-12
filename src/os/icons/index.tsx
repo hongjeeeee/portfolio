@@ -1,23 +1,19 @@
 import { useId, type PropsWithChildren } from 'react';
 import s from './style.module.css';
 
-/**
- * 독 아이콘. 받은 그림을 보고 SVG 로 다시 그렸다. 크기는 부모의 font-size(1em)를 따른다.
- * 여러 곳에 동시에 그려지므로 그라데이션 id 는 useId 로 겹치지 않게 만든다.
- */
 const Tile = ({ bg, children }: PropsWithChildren<{ bg: string }>) => (
   <span className={s.tile} style={{ background: bg }}>
     {children}
   </span>
 );
 
-/** 타일을 꽉 채우는 60×60 그림판 */
 const Full = ({ children }: PropsWithChildren) => (
   <svg className={s.full} viewBox="0 0 60 60" aria-hidden>
     {children}
   </svg>
 );
 
+// 추가: 독 아이콘. 60×60 판에 그린다.
 export const NotesIcon = () => {
   const top = useId();
   return (
@@ -39,7 +35,6 @@ export const NotesIcon = () => {
   );
 };
 
-/** 파일 앱 · 파인더의 파란 폴더. 받은 그림을 보고 다시 그렸다. 64×48 판, 크기는 부모를 따른다. */
 export const FolderGlyph = ({ className }: { className?: string }) => {
   const front = useId();
   return (
@@ -56,12 +51,12 @@ export const FolderGlyph = ({ className }: { className?: string }) => {
           <stop offset="1" stopColor="#1b7cf2" />
         </linearGradient>
       </defs>
-      {/* 뒤판과 탭 */}
+
       <path
         d="M4 10a5 5 0 0 1 5-5h15.2a4 4 0 0 1 3 1.4l3.4 3.9a4 4 0 0 0 3 1.4H55a5 5 0 0 1 5 5V22H4z"
         fill="#1f86f0"
       />
-      {/* 앞판 위로 살짝 보이는 종이 */}
+
       <rect x="7" y="14" width="50" height="6" rx="1.6" fill="#fff" />
       <rect
         x="4"
@@ -75,7 +70,6 @@ export const FolderGlyph = ({ className }: { className?: string }) => {
   );
 };
 
-/** 독의 프로젝트 앱. 파일 앱처럼 흰 타일에 파란 폴더를 얹는다. */
 export const FolderIcon = () => (
   <Tile bg="#ffffff">
     <FolderGlyph className={s.folder} />
@@ -122,7 +116,7 @@ export const OutlookIcon = () => {
             <stop offset="1" stopColor="#0a4fa3" />
           </linearGradient>
         </defs>
-        {/* 뒤: 격자가 비치는 봉투 */}
+
         <rect
           x="21"
           y="12"
@@ -144,7 +138,7 @@ export const OutlookIcon = () => {
           stroke="#6fd3fa"
           strokeWidth="1.6"
         />
-        {/* 앞: O 판 */}
+
         <rect
           x="9"
           y="19"
@@ -182,7 +176,6 @@ export const GithubIcon = () => (
   </Tile>
 );
 
-/** 메뉴 막대 왼쪽과 부팅 화면에 쓰는 표식. 이름(홍제)의 첫 자음 ㅎ 을 본떴다. 파비콘도 같은 모양이다. */
 export const LogoGlyph = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 16 16" aria-hidden>
     <g fill="currentColor">

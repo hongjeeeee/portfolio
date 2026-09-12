@@ -7,15 +7,12 @@ import Markdown from '../../Markdown';
 import { notesIn } from '../../notes';
 import s from './style.module.css';
 
-/**
- * 파인더처럼 프로젝트마다 폴더를 늘어놓는다. 폴더를 누르면 그 자리에서 글이 열리고, 뒤로 가기로 돌아온다.
- * 글은 src/content/projects/*.md 에서 온다. 머리말은 메모와 같다(title · excerpt · link · order).
- */
+// 수정: 프로젝트 글은 src/content/projects/*.md 에 넣는다. 파일 하나가 폴더 하나다.
 const Projects = () => {
   const projectId = useOS((st) => st.projectId);
   const { setProjectId } = useOS.getState();
   const compact = useOS((st) => st.layout.mode === 'compact');
-  // 뒤로 나오면 방금 보던 글을 기억해 두었다가 앞으로 가기로 다시 연다.
+
   const [ahead, setAhead] = useState<string | null>(null);
 
   const list = notesIn('projects');

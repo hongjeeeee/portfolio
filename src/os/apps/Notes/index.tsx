@@ -7,24 +7,20 @@ import Markdown from '../../Markdown';
 import { notes, notesIn } from '../../notes';
 import s from './style.module.css';
 
-/**
- * 애플 메모처럼 목록 · 본문 두 칸. 목록은 분류마다 제목을 달고 그 아래에 글을 모은다.
- * 글은 src/content/<분류>/*.md 에서 온다. 창이 좁으면(폰, 작은 창) 목록과 본문을 한 화면씩 넘겨 본다.
- */
+// 수정: 소개 글은 src/content/about/*.md 에 넣는다.
 const Notes = () => {
   const noteId = useOS((st) => st.noteId);
   const { setNoteId } = useOS.getState();
   const compact = useOS((st) => st.layout.mode === 'compact');
   const [ref, width] = useElementWidth<HTMLDivElement>();
-  // 폰에서는 폭을 재기 전에도 좁은 배치로 시작한다.
+
   const narrow = compact || (width > 0 && width < 600);
 
-  // 글이 없는 분류는 제목도 감춘다.
   const sections = noteCategories
     .map((c) => ({ ...c, list: notesIn(c.id) }))
     .filter((c) => c.list.length > 0);
   const picked = notes.find((n) => n.id === noteId) ?? null;
-  // 넓을 때는 아무것도 안 골랐어도 맨 위 글을 보여 준다.
+
   const current = picked ?? (narrow ? null : (sections[0]?.list[0] ?? null));
 
   const listView = (

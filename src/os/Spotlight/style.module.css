@@ -1,4 +1,3 @@
-/* 메뉴 막대(1000) 위를 덮는다. 돋보기 아이콘을 다시 눌러도 닫힌다. */
 .scrim {
   position: absolute;
   inset: 0;

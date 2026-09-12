@@ -59,10 +59,6 @@ const Battery = () => {
   );
 };
 
-/**
- * light 면 흰 글자(바탕화면 · 어두운 앱), 아니면 검은 글자.
- * 다이내믹 아일랜드는 3D 아이폰 화면에만 그린다. 진짜 폰에는 진짜가 있다.
- */
 const StatusBar = ({ light, island }: { light: boolean; island: boolean }) => {
   const now = useNow();
   const wifi = useOS((st) => st.wifi);

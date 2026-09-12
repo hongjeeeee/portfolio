@@ -5,7 +5,6 @@ interface BatteryManager extends EventTarget {
   charging: boolean;
 }
 
-/** 크롬 계열만 배터리 API 가 있다. 없으면 가득 찬 걸로 보여 준다. */
 export const useBattery = () => {
   const [state, setState] = useState({ level: 1, charging: false });
 

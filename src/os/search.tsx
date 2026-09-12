@@ -18,13 +18,8 @@ export interface SearchItem {
   run: () => void;
 }
 
-/** 메모 앱에 나오는 분류. 나머지 글(프로젝트)은 프로젝트 앱에 폴더로 나온다. */
 const NOTE_CATEGORIES = new Set(noteCategories.map((c) => c.id));
 
-/**
- * Spotlight(맥)와 검색(아이폰)이 같이 쓴다. 앱 · 메모 · 프로젝트 · 독의 링크를 찾는다.
- * 앱과 글은 스토어의 open 으로 열어서, 맥에서는 창이, 아이폰에서는 전체 화면 앱이 뜬다.
- */
 export const searchItems = (query: string): SearchItem[] => {
   const q = query.trim().toLowerCase();
   if (!q) return [];

@@ -49,7 +49,7 @@ const MacBook = () => {
   const geo = useMemo(
     () => ({
       base: slab(BASE.w, BASE.d, BASE.h, BASE.r, 0.014),
-      // 뚜껑은 힌지 축(원점)에서 +z 로 뻗고, 두께 가운데가 축에 온다.
+
       lid: slab(BASE.w, BASE.d, LID.t, BASE.r, 0.01).translate(
         0,
         -LID.t / 2,
@@ -90,7 +90,7 @@ const MacBook = () => {
     lid.current!.rotation.x = -angle.current;
 
     const { setPhase } = useOS.getState();
-    // 다 열리기 조금 전에 화면을 켠다. 실제 맥북도 뚜껑을 여는 중에 켜진다.
+
     if (phase === 'opening' && angle.current > OPEN_ANGLE * 0.8) {
       setPhase('booting');
     }
@@ -100,7 +100,6 @@ const MacBook = () => {
       setPhase('asleep');
     }
 
-    // 켜진 화면이 키보드를 은은하게 비춘다.
     const light = glow.current!;
     const on = phase === 'booting' || phase === 'desktop';
     const target = on ? 0.8 : 0;
@@ -118,7 +117,6 @@ const MacBook = () => {
       <mesh geometry={geo.base} material={alu} />
       <Keyboard />
 
-      {/* 트랙패드: 알루미늄과 같은 색의 유리. 테두리만 살짝 어둡다. */}
       <group
         position={[0, BASE.h + 0.0005, TRACKPAD.z]}
         rotation-x={-Math.PI / 2}
@@ -139,13 +137,11 @@ const MacBook = () => {
         </mesh>
       </group>
 
-      {/* 앞쪽 가운데 뚜껑을 여는 손가락 홈 */}
       <mesh position={[0, BASE.h - 0.004, BASE.d / 2 - 0.004]}>
         <boxGeometry args={[0.46, 0.008, 0.012]} />
         <meshStandardMaterial color="#a2a4a9" metalness={0.8} roughness={0.3} />
       </mesh>
 
-      {/* 뚜껑은 힌지 축을 중심으로 돈다 */}
       <group ref={lid} position={HINGE}>
         <mesh geometry={geo.lid} material={alu} />
         <mesh
@@ -185,7 +181,7 @@ const MacBook = () => {
             toneMapped={false}
           />
         </mesh>
-        {/* 힌지 덮개 */}
+
         <mesh rotation-z={Math.PI / 2}>
           <cylinderGeometry args={[LID.t / 2, LID.t / 2, BASE.w - 0.36, 24]} />
           <meshStandardMaterial

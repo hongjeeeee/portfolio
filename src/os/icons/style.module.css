@@ -1,4 +1,3 @@
-/* macOS 앱 아이콘 비율. 모서리 22.5%, 위아래로 빛이 떨어지는 안쪽 테두리 */
 .tile {
   position: relative;
   display: grid;
@@ -13,7 +12,6 @@
     0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
-/* 유리 광택. 왼쪽 위에서 빛이 떨어지고 가장자리가 얇게 빛난다. */
 .tile::after {
   content: '';
   position: absolute;
@@ -31,7 +29,6 @@
   pointer-events: none;
 }
 
-/* 타일을 꽉 채우는 그림. 모서리는 타일의 둥근 테두리가 자른다. */
 .full {
   position: absolute;
   inset: 0;

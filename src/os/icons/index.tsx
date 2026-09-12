@@ -13,7 +13,7 @@ const Full = ({ children }: PropsWithChildren) => (
   </svg>
 );
 
-// 추가: 독 아이콘. 60×60 판에 그린다.
+// 추가: [독 아이콘]
 export const NotesIcon = () => {
   const top = useId();
   return (

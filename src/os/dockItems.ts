@@ -22,7 +22,7 @@ export interface DockItemDef {
   home?: boolean;
 }
 
-// 추가·수정: 독 항목. 순서가 곧 화면 순서고, home: true 면 아이폰에서는 독 대신 홈 화면에 놓인다.
+// 추가: [독 항목]
 export const DOCK_ITEMS: DockItemDef[] = [
   { id: 'notes', title: '메모', Icon: NotesIcon, app: 'notes' },
   {

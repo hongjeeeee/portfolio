@@ -7,7 +7,7 @@ import Markdown from '../../Markdown';
 import { notesIn } from '../../notes';
 import s from './style.module.css';
 
-// 수정: 프로젝트 글은 src/content/projects/*.md 에 넣는다. 파일 하나가 폴더 하나다.
+// 글 위치: src/content/projects/*.md
 const Projects = () => {
   const projectId = useOS((st) => st.projectId);
   const { setProjectId } = useOS.getState();

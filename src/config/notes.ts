@@ -3,5 +3,5 @@ export interface NoteCategory {
   title: string;
 }
 
-// 추가: 메모 앱의 분류. 분류를 늘리면 src/content/<id>/ 폴더도 만든다.
+// 추가: [메모 분류] · 글 폴더: src/content/<id>/
 export const noteCategories: NoteCategory[] = [{ id: 'about', title: '소개' }];

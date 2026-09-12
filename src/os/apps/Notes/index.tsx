@@ -7,7 +7,7 @@ import Markdown from '../../Markdown';
 import { notes, notesIn } from '../../notes';
 import s from './style.module.css';
 
-// 수정: 소개 글은 src/content/about/*.md 에 넣는다.
+// 글 위치: src/content/about/*.md
 const Notes = () => {
   const noteId = useOS((st) => st.noteId);
   const { setNoteId } = useOS.getState();

@@ -6,7 +6,7 @@ import { computeLayout, type Layout } from '@/three/pose';
 export type Phase =
   'closed' | 'opening' | 'booting' | 'desktop' | 'closing' | 'asleep';
 
-// 추가: 앱을 늘리면 여기에 이름을 넣는다.
+// 추가: [앱 이름]
 export type AppId = 'notes' | 'projects';
 
 export interface Frame {
@@ -27,7 +27,7 @@ export const DOCK_SPACE = 56;
 export const MIN_W = 320;
 export const MIN_H = 200;
 
-// 추가·수정: 앱 창의 처음 크기와 자리.
+// 수정: [창 크기 · 자리]
 const FRAMES: Record<AppId, { w: number; h: number; dx: number; dy: number }> =
   {
     notes: { w: 860, h: 520, dx: 0, dy: -12 },

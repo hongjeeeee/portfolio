@@ -298,7 +298,7 @@ export const useOS = create<OSState>((set, get) => ({
 
   wake: () => {
     const { phase } = get();
-    if (phase === 'asleep' || phase === 'closed') set({ phase: 'opening' });
+    if (phase === 'asleep' || phase === 'closed') get().setPhase('opening');
   },
 }));
 

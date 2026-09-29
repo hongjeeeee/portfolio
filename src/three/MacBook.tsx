@@ -103,7 +103,10 @@ const MacBook = () => {
     const light = glow.current!;
     const on = phase === 'booting' || phase === 'desktop';
     const target = on ? 0.8 : 0;
-    light.intensity += (target - light.intensity) * (1 - Math.exp(-5 * dt));
+    /* 화면이 꺼지면 바로 끈다 · 서서히 끄면 닫히는 동안 검은 패널에 빛 번짐이 남음 */
+    light.intensity = on
+      ? light.intensity + (target - light.intensity) * (1 - Math.exp(-5 * dt))
+      : 0;
 
     const settled =
       Math.abs(angle.current - goal) < 1e-4 &&
@@ -137,9 +140,9 @@ const MacBook = () => {
         </mesh>
       </group>
 
-      <mesh position={[0, BASE.h - 0.004, BASE.d / 2 - 0.004]}>
+      <mesh position={[0, BASE.h - 0.004, BASE.d / 2 - 0.006]}>
         <boxGeometry args={[0.46, 0.008, 0.012]} />
-        <meshStandardMaterial color="#a2a4a9" metalness={0.8} roughness={0.3} />
+        <meshStandardMaterial color="#16171a" metalness={0.5} roughness={0.6} />
       </mesh>
 
       <group ref={lid} position={HINGE}>
